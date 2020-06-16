@@ -33,8 +33,9 @@ $("#config").on("click", function (event) {
 
 function startShow() {
     $('.modal').fadeIn(200);
-    playLottie("background");
-    playLottie("foreground");
+    Object.keys(Play).forEach(function (item, index){
+        playLottie(item);
+    });
     let t = Config["self"].wait;
     setTimeout(function () {
         $('.modal').fadeOut(200);
@@ -69,7 +70,7 @@ function getLottie(id) {
     let result = lottie.loadAnimation({
         container: container,
         renderer: 'svg',
-        loop: config.loop, //!=1?false:true,
+        loop: config.loop===true?true:false, //!=1?false:true,
         autoplay: false,
         path: config.url,
         rendererSettings: {
