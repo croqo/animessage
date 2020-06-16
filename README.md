@@ -40,3 +40,5 @@
 - **dalay** (number) delay before start play (ms)
 - **speed** (number) normal is 1
 - **loop** (bolean)
+
+Для быстрой связи пишите в [телеграм](https://t.me/croqo)
