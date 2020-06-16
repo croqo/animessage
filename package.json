@@ -6,5 +6,9 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/croqo/lottie-factory.git"
+  },
+  "dependencies": {
+    "jquery": "^3.5.1",
+    "lottie-web": "^5.6.10"
   }
 }
