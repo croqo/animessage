@@ -1,2 +1,4 @@
 # lottie-factory
-Based on lottie-web lib
+**Required**:
+- [lottie-web](https://github.com/airbnb/lottie-web)
+- jquery
