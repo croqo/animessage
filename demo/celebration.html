@@ -1,0 +1,226 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="title" content="Celebration lottie constructor">
+    <title>Celebration lottie constructor</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.0/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css">
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.6.10/lottie.min.js"></script>
+
+</head>
+<body>
+
+<style>
+    .lottie {
+        position: absolute;
+    }
+    .lottie-player {
+        overflow:hidden;
+        display: none;
+    }
+    .modal-background {
+        opacity: 0.67;
+    }
+</style>
+
+<div class="modal is-active" style="display: none">
+    <div class="modal-background has-background-white"></div>
+    <div class="lottie"
+         style="width:100vw; height:100vh; z-index: -2; left:50%"
+    >
+        <figure
+                id="background"
+                class="lottie-player image"
+                style="height: 100%; left: -50%"
+                data-path="https://assets9.lottiefiles.com/packages/lf20_KsE9Lh.json"
+        >
+        </figure>
+    </div>
+
+    <div class="modal-card">
+        <figure
+                id="foreground"
+                class="lottie-player image"
+                data-path="https://assets1.lottiefiles.com/temp/lf20_PRvG5R.json"
+        >
+        </figure>
+    </div>
+</div>
+
+<div class="hero is-fullheight">
+    <div class="hero-body">
+        <div class="container">
+            <div class="columns is-centered is-vcentered">
+                <div class="column has-text-centered">
+                    <h1 class="title">Hello</h1>
+                    <h2 class="subtitle">This is demo page</h2>
+                </div>
+                <div class="column has-text-centered">
+                    <a onclick="startShow()" class="button is-large is-primary">Congratulate!</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="hero-foot is-fixed-bottom" style="z-index: 100">
+        <div class="hero-buttons" style="position:relative; z-index: 101">
+            <a id="config" class="button is-fullwidth animate__animated animate__bounceInUp">Config</a>
+            <form id="self-config" class="animate__animated animate__bounceInRight" data-target="self" hidden>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Duration(ms)</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <input name="wait" class="input" type="number" step="1000" value="5000">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="container animate__animated animate__bounceInUp" hidden>
+            <br>
+            <div class="columns is-centered is-vcentered">
+
+
+                <!--  Background  section  -->
+                <div class="column">
+                    <p class="title has-text-centered">Background</p>
+                    <form data-target="background">
+
+                        <div class="field is-horizontal">
+                            <div class="field-label is-normal">
+                                <label class="label">URL</label>
+                            </div>
+                            <div class="field-body">
+                                <div class="field">
+                                    <div class="control">
+                                        <input name="url" class="input" type="text" value="https://assets9.lottiefiles.com/packages/lf20_KsE9Lh.json">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="field is-horizontal">
+                            <div class="field-label is-normal"><label class="label"></label></div>
+                            <div class="field-body">
+
+                                <div class="field">
+                                    <label class="label is-small has-text-grey-lighter">Delay (ms)</label>
+                                    <div class="control is-expanded">
+                                        <input placeholder="Disabled" class="input has-background-white" type="number" disabled>
+                                    </div>
+                                </div>
+
+                                <div class="field">
+                                    <label class="label is-small">Speed</label>
+                                    <div class="control is-expanded">
+                                        <div class="select">
+                                            <select name="speed">
+                                                <option>0.5</option>
+                                                <option selected value="1">Normal</option>
+                                                <option>1.5</option>
+                                                <option>2.0</option>
+                                                <option>2.5</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="field">
+                                    <label class="label is-small">Loop?</label>
+                                    <div class="icon is-large">
+                                        <input name="loop" type="checkbox">
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <label class="label is-small has-text-white">test</label>
+                                    <div class="control">
+                                        <button class="button is-primary">
+                                            Play
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+
+                <!--  Foreground  section  -->
+                <div class="column">
+                    <p class="title has-text-centered">Foreground</p>
+                    <form data-target="foreground">
+
+                        <div class="field is-horizontal">
+                            <div class="field-label is-normal">
+                                <label class="label">URL</label>
+                            </div>
+                            <div class="field-body">
+                                <div class="field">
+                                    <div class="control">
+                                        <input name="url" class="input" type="text" value="https://assets1.lottiefiles.com/temp/lf20_PRvG5R.json">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="field is-horizontal">
+                            <div class="field-label is-normal"><label class="label"></label></div>
+                            <div class="field-body">
+
+                                <div class="field">
+                                    <label class="label is-small">Delay (ms)</label>
+                                    <div class="control is-expanded">
+                                        <input name="delay" class="input" type="number" step="500" value="0">
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <label class="label is-small">Speed</label>
+                                    <div class="control">
+                                        <div class="select">
+                                            <select name="speed">
+                                                <option>0.5</option>
+                                                <option selected value="1">Normal</option>
+                                                <option>1.5</option>
+                                                <option>2.0</option>
+                                                <option>2.5</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="field">
+                                    <label class="label is-small">Loop?</label>
+                                    <div class="icon is-large">
+                                        <input name="loop" type="checkbox">
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <label class="label is-small has-text-white">test</label>
+                                    <div class="control">
+                                        <button class="button is-primary">
+                                            Play
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="../index.js"></script>
+
+</body>
+</html>

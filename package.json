@@ -1,0 +1,10 @@
+{
+  "name": "lottie-factory",
+  "version": "0.1.0",
+  "description": "Based on lottie-web lib",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/croqo/lottie-factory.git"
+  }
+}
