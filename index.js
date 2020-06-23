@@ -37,8 +37,12 @@ function startShow() {
         playLottie(item);
     });
     let t = Config["self"].wait;
+    let fanfares = $("audio").get(0);
+    fanfares.play();
     setTimeout(function () {
         $('.modal').fadeOut(200);
+        fanfares.pause();
+        fanfares.currentTime = 0;
     }, t );
 }
 function resetLottie(id) {
