@@ -77,18 +77,14 @@
         <div class="hero-buttons" style="position:relative; z-index: 101">
             <a id="config" class="button is-fullwidth animate__animated animate__bounceInUp">Config</a>
             <form id="self-config" class="animate__animated animate__bounceInRight" data-target="self" hidden>
-                <div class="field is-horizontal">
-                    <div class="field-label is-normal">
-                        <label class="label">Duration(ms)</label>
-                    </div>
-                    <div class="field-body">
-                        <div class="field">
-                            <div class="control">
-                                <input name="wait" class="input" type="number" step="1000" value="5000">
-                            </div>
-                        </div>
+
+                <div class="field">
+                    <label class="label is-small">Duration (ms)</label>
+                    <div class="control">
+                        <input name="wait" class="input" type="number" step="1000" value="5000">
                     </div>
                 </div>
+
             </form>
         </div>
         <div class="container animate__animated animate__bounceInUp" hidden>
@@ -220,6 +216,38 @@
                             </div>
                         </div>
                     </form>
+                </div>
+
+                <div class="column">
+                    <p class="title has-text-centered">Fanfare</p>
+                    <form id="tucket">
+                        <div class="field is-horizontal">
+                            <div class="field-label is-normal">
+                                <label class="label">Mp3</label>
+                            </div>
+                            <div class="field-body">
+                                <div class="field">
+                                    <div class="control">
+                                        <input name="mp3" class="input" type="text" value="https://croqo.xyz/storage/app/media/vicetone-tony-igy-astronomia-atari-pokey-cover.mp3">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field is-horizontal">
+                            <div class="field-label is-normal">
+                                <label class="label is-normal"></label>
+                            </div>
+                            <div class="field-body">
+                                <div class="field">
+                                    <label class="label is-small has-text-white">placeholder</label>
+                                    <audio controls>
+                                        <source src="https://croqo.xyz/storage/app/media/vicetone-tony-igy-astronomia-atari-pokey-cover.mp3">
+                                    </audio>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
                 </div>
 
             </div>
