@@ -1,6 +1,8 @@
 
 let Config = getConfig();
 let Play = getLotties();
+let Sound = getSound();
+soundLoad(Config["sound"]["mp3"]);
 
 $("input, select").on("change", function (event) {
     let input = event.target;
@@ -32,6 +34,7 @@ $("#config").on("click", function (event) {
 });
 
 function startShow() {
+    Sound.play();
     $('.modal').fadeIn(200);
     Object.keys(Play).forEach(function (item, index){
         playLottie(item);
@@ -39,6 +42,8 @@ function startShow() {
     let t = Config["self"].wait;
     setTimeout(function () {
         $('.modal').fadeOut(200);
+        Sound.pause();
+        Sound.currentTime = 0;
     }, t );
 }
 function resetLottie(id) {
@@ -95,6 +100,7 @@ function getConfig() {
     });
     return result;
 }
+
 function getForm(form) {
     let result = {};
     let data = $(form).serializeArray();
@@ -104,4 +110,13 @@ function getForm(form) {
         }
     });
     return result;
+}
+function getSound() {
+    let s = $("#sound");
+    return s[0];
+}
+function soundLoad(url) {
+    $("#mp3").attr("src", url);
+    Sound.pause();
+    Sound.load();
 }

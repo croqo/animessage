@@ -41,12 +41,21 @@
         </figure>
     </div>
 
-    <div class="modal-card">
-        <figure
-                id="foreground"
-                class="lottie-player image"
-        >
-        </figure>
+    <div class="modal-card" style="margin-top: -15vh">
+        <div class="card-content">
+            <div class="box">
+                <figure
+                        id="foreground"
+                        class="lottie-player image"
+                >
+                </figure>
+            </div>
+        </div>
+        <div class="notification is-warning">
+            <p class="title has-text-centered">
+                Yay! You did it!
+            </p>
+        </div>
     </div>
 </div>
 
@@ -68,18 +77,14 @@
         <div class="hero-buttons" style="position:relative; z-index: 101">
             <a id="config" class="button is-fullwidth animate__animated animate__bounceInUp">Config</a>
             <form id="self-config" class="animate__animated animate__bounceInRight" data-target="self" hidden>
-                <div class="field is-horizontal">
-                    <div class="field-label is-normal">
-                        <label class="label">Duration(ms)</label>
-                    </div>
-                    <div class="field-body">
-                        <div class="field">
-                            <div class="control">
-                                <input name="wait" class="input" type="number" step="1000" value="5000">
-                            </div>
-                        </div>
+
+                <div class="field">
+                    <label class="label is-small">Duration (ms)</label>
+                    <div class="control">
+                        <input name="wait" class="input" type="number" step="1000" value="5000">
                     </div>
                 </div>
+
             </form>
         </div>
         <div class="container animate__animated animate__bounceInUp" hidden>
@@ -99,7 +104,7 @@
                             <div class="field-body">
                                 <div class="field">
                                     <div class="control">
-                                        <input name="url" class="input" type="text" value="https://assets9.lottiefiles.com/packages/lf20_KsE9Lh.json">
+                                        <input name="url" class="input" type="text" value="https://assets8.lottiefiles.com/packages/lf20_fSIvGi.json">
                                     </div>
                                 </div>
                             </div>
@@ -163,7 +168,7 @@
                             <div class="field-body">
                                 <div class="field">
                                     <div class="control">
-                                        <input name="url" class="input" type="text" value="https://assets1.lottiefiles.com/temp/lf20_PRvG5R.json">
+                                        <input name="url" class="input" type="text" value="https://assets6.lottiefiles.com/private_files/lf30_Y7PQoU.json">
                                     </div>
                                 </div>
                             </div>
@@ -211,6 +216,38 @@
                             </div>
                         </div>
                     </form>
+                </div>
+
+                <div class="column">
+                    <p class="title has-text-centered">Sound</p>
+                    <form data-target="sound">
+                        <div class="field is-horizontal">
+                            <div class="field-label is-normal">
+                                <label class="label">Mp3</label>
+                            </div>
+                            <div class="field-body">
+                                <div class="field">
+                                    <div class="control">
+                                        <input name="mp3" class="input" type="text" onchange="soundLoad(this.value)" value="https://croqo.xyz/storage/app/media/vicetone-tony-igy-astronomia-atari-pokey-cover.mp3">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field is-horizontal">
+                            <div class="field-label is-normal">
+                                <label class="label is-normal"></label>
+                            </div>
+                            <div class="field-body">
+                                <div class="field">
+                                    <label class="label is-small has-text-white">placeholder</label>
+                                    <audio id="sound" controls>
+                                        <source id="mp3">
+                                    </audio>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
                 </div>
 
             </div>
