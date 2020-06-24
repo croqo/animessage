@@ -219,8 +219,8 @@
                 </div>
 
                 <div class="column">
-                    <p class="title has-text-centered">Fanfare</p>
-                    <form id="tucket">
+                    <p class="title has-text-centered">Sound</p>
+                    <form data-target="sound">
                         <div class="field is-horizontal">
                             <div class="field-label is-normal">
                                 <label class="label">Mp3</label>
@@ -228,7 +228,7 @@
                             <div class="field-body">
                                 <div class="field">
                                     <div class="control">
-                                        <input name="mp3" class="input" type="text" value="https://croqo.xyz/storage/app/media/vicetone-tony-igy-astronomia-atari-pokey-cover.mp3">
+                                        <input name="mp3" class="input" type="text" onchange="soundLoad(this.value)" value="https://croqo.xyz/storage/app/media/vicetone-tony-igy-astronomia-atari-pokey-cover.mp3">
                                     </div>
                                 </div>
                             </div>
@@ -240,8 +240,8 @@
                             <div class="field-body">
                                 <div class="field">
                                     <label class="label is-small has-text-white">placeholder</label>
-                                    <audio controls>
-                                        <source src="https://croqo.xyz/storage/app/media/vicetone-tony-igy-astronomia-atari-pokey-cover.mp3">
+                                    <audio id="sound" controls>
+                                        <source id="mp3">
                                     </audio>
                                 </div>
                             </div>
