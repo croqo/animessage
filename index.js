@@ -2,9 +2,9 @@
 let Config = getConfig();
 let Play = getLotties();
 let Sound = getSound();
-soundLoad(Config["sound"]["mp3"]);
+soundLoad(Config["composition"]["sound"]);
 
-$("input, select").on("change", function (event) {
+$("input, select, textarea").on("change", function (event) {
     let input = event.target;
     let id = $(input).closest("form").attr("data-target");
     let name = $(input).attr("name");
@@ -25,8 +25,7 @@ $("form button").on("click", function (event) {
 });
 $("#config").on("click", function (event) {
     $(this).toggleClass("is-warning");
-    $(".hero-foot .container").slideToggle(200);
-    $("#self-config").slideToggle();
+    $("#config-panel").slideToggle(200);
     $(".modal").fadeToggle(200);
     $(".lottie-player").each(function () {
         $(this).fadeToggle(200);
@@ -35,11 +34,12 @@ $("#config").on("click", function (event) {
 
 function startShow() {
     Sound.play();
+    $("#congratulation-text").text(Config["composition"]["text"]);
     $('.modal').fadeIn(200);
     Object.keys(Play).forEach(function (item, index){
         playLottie(item);
     });
-    let t = Config["self"].wait;
+    let t = Config["composition"]["duration"];
     setTimeout(function () {
         $('.modal').fadeOut(200);
         Sound.pause();
