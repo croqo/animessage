@@ -75,7 +75,7 @@ function getLottie(id) {
     let result = lottie.loadAnimation({
         container: container,
         renderer: 'svg',
-        loop: config.loop===true?true:false, //!=1?false:true,
+        loop: config.loop==="on"?true:false, //!=1?false:true,
         autoplay: false,
         path: config.url,
         rendererSettings: {
