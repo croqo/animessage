@@ -1,25 +1,44 @@
 
+let Url = getUrl();
+
 let Config = getConfig();
 let Play = getLotties();
 let Sound = getSound();
-soundLoad(Config["composition"]["sound"]);
+soundLoad();
+
+// Object.keys(Config).forEach(function (item) {
+//     Object.keys(Config[item]).forEach(function (key) {
+//         console.log(item+'_'+key+': '+Config[item][key]);
+//     });
+// });
 
 $("input, select, textarea").on("change", function (event) {
-    let input = event.target;
-    let id = $(input).closest("form").attr("data-target");
-    let name = $(input).attr("name");
+    // let this = event.target;
+    let id = getFormTargetId(
+        $(this).closest("form").get(0)
+    );
+    let name = $(this).attr("name");
+    let value;
     switch (name) {
         case "loop":
-            Config[id]["loop"] = $(input).prop("checked");
+            value = $(this).prop("checked");
             break;
-
         default:
-            Config[id][name] = $(input).val();
+            value = $(this).val();
     }
+    Config[id][name] = value;
+    Url.searchParams.set(`${id}_${name}`, value);
+    window.history.replaceState(
+        `${id}_${name}: ${value}`,
+        "woohoo!",
+        `${Url.pathname}?${Url.searchParams}`
+    );
 });
 $("form button").on("click", function (event) {
     event.preventDefault();
-    let id = $(this).closest("form").attr("data-target");
+    let id = getFormTargetId(
+        $(this).closest("form").get(0)
+    );
     setCongig(id);
     playLottie(id);
 });
@@ -36,7 +55,7 @@ function startShow() {
     Sound.play();
     $("#congratulation-text").text(Config["composition"]["text"]);
     $('.modal').fadeIn(200);
-    Object.keys(Play).forEach(function (item, index){
+    Object.keys(Play).forEach(function (item){
         playLottie(item);
     });
     let t = Config["composition"]["duration"];
@@ -75,7 +94,7 @@ function getLottie(id) {
     let result = lottie.loadAnimation({
         container: container,
         renderer: 'svg',
-        loop: config.loop==="on"?true:false, //!=1?false:true,
+        loop: !!config.loop,
         autoplay: false,
         path: config.url,
         rendererSettings: {
@@ -93,21 +112,30 @@ function setCongig(targetId) {
 
 function getConfig() {
     let result = [];
+    setFormsFromUrl(Url.searchParams);
     $("form").each(function (index) {
         let form = $("form").get(index);
-        let id = form.getAttribute('data-target');
+        let id = getFormTargetId(form);
         result[id] = getForm(form);
     });
     return result;
 }
-
+function getFormTargetId(form) {
+    return form.getAttribute('data-target');
+}
 function getForm(form) {
     let result = {};
     let data = $(form).serializeArray();
-    data.forEach(function(item, index) {
-        if (item["name"]){
-            result[item["name"]] = item["value"];
+    data.forEach(function(item) {
+        let value;
+        switch (item["name"]) {
+            case "loop":
+                value = item["value"] === "on";
+                break;
+            default:
+                value = item["value"];
         }
+        result[item["name"]] = value;
     });
     return result;
 }
@@ -115,8 +143,25 @@ function getSound() {
     let s = $("#sound");
     return s[0];
 }
-function soundLoad(url) {
-    $("#mp3").attr("src", url);
+function soundLoad() {
+    $("#mp3").attr("src", Config["composition"]["sound"]);
     Sound.pause();
     Sound.load();
+}
+function getUrl(){
+    let href = window.location.href;
+    return new URL(href);
+}
+function setFormsFromUrl(searchParams){
+    for(let [name, value] of searchParams) {
+        let a = name.split("_");
+        let selector = `form[data-target="${a[0]}"]`;
+        switch (a[1]) {
+            case 'loop':
+                $(selector+' [name="loop"]').attr('checked',value!=="false");
+                break;
+            default:
+                $(`${selector} [name="${a[1]}"]`).val(value);
+        }
+    }
 }
