@@ -1,5 +1,12 @@
 
 let Url = getUrl();
+if (Url.hash!==""){
+    window.history.replaceState(
+        "???",
+        "woohoo!",
+        `${Url.pathname}${atob(Url.hash.slice(1))}`
+    );
+}
 
 let Config = getConfig();
 console.log(Config);
