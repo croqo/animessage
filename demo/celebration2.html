@@ -31,8 +31,23 @@
 
 <div class="modal is-active is-hidden">
     <div class="modal-background has-background-white"></div>
-    <div data-animation="background" style="position: absolute; width: 100vw; height: 100vw; z-index: 1"></div>
-    <div class="modal-card is-hidden" style="margin-top: -25vh; z-index: 2">
+    <div
+            class="modal-background has-background-white"
+            style="opacity: 0.67;z-index: 2"
+    ></div>
+    <div>
+        <div
+                class="image"
+                data-animation="background"
+                style="
+                position:absolute;
+                z-index: 1;
+                overflow: hidden;
+                top: 0; bottom: 0;left: 0;right: 0;
+                "
+        ></div>
+    </div>
+    <div class="modal-card is-hidden" style="margin-top: -25vh; z-index: 3">
         <div class="columns is-centered is-vcentered">
             <div class="column" style="margin: 50px; max-width: 400px; max-height: 400px">
                 <div data-animation="hero">
@@ -139,6 +154,7 @@
                         <div class="box" data-animation="background">
                             <figure
                                     id="background"
+                                    style="height: 100%; min-width: 100%"
                                     class="lottie-player image"
                             >
                             </figure>
@@ -270,6 +286,9 @@
             Sound.currentTime = 0;
             attachLotties("#config-panel");
         }, t );
+    }
+    function closeMessage() {
+
     }
     function goConfig(element) {
         $(element).addClass('is-hidden');
