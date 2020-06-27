@@ -116,7 +116,7 @@
                     <form data-target="foreground">
                         <div class="field">
                             <div class="control">
-                                <input name="duration" class="input" type="number" step="1000" value="9999">
+                                <input name="duration" class="input" type="number" step="1000" value="8000">
                             </div>
                             <p class="help is-dark">Overall duration (ms)</p>
                         </div>
@@ -153,7 +153,7 @@
                             >
                             </figure>
                         </div>
-                        <p class="help">Hero animation</p>
+                        <p class="help">Foreground animation</p>
                     </div>
                     <div class="column is-1">
                         <div class="field">
@@ -252,6 +252,7 @@
 
     function startShow() {
         Sound.play();
+        updateAsset("message");
         attachLotties(".modal");
         $('.modal').removeClass("is-hidden");
         Animation["background"].goToAndPlay(0);
