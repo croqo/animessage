@@ -2,7 +2,10 @@
 let Url = getUrl();
 
 let Config = getConfig();
-let Play = getLotties();
+console.log(Config);
+let Animation = getLotties();
+console.log(Animation);
+
 let Sound = getSound();
 soundLoad();
 
@@ -11,72 +14,6 @@ soundLoad();
 //         console.log(item+'_'+key+': '+Config[item][key]);
 //     });
 // });
-
-$("input, select, textarea").on("change", function (event) {
-    // let this = event.target;
-    let id = getFormTargetId(
-        $(this).closest("form").get(0)
-    );
-    let name = $(this).attr("name");
-    let value;
-    switch (name) {
-        case "loop":
-            value = $(this).prop("checked");
-            break;
-        default:
-            value = $(this).val();
-    }
-    Config[id][name] = value;
-    Url.searchParams.set(`${id}_${name}`, value);
-    window.history.replaceState(
-        `${id}_${name}: ${value}`,
-        "woohoo!",
-        `${Url.pathname}?${Url.searchParams}`
-    );
-});
-$("form button").on("click", function (event) {
-    event.preventDefault();
-    let id = getFormTargetId(
-        $(this).closest("form").get(0)
-    );
-    setCongig(id);
-    playLottie(id);
-});
-$("#config").on("click", function (event) {
-    $(this).toggleClass("is-warning");
-    $("#config-panel").slideToggle(200);
-    $(".modal").fadeToggle(200);
-    $(".lottie-player").each(function () {
-        $(this).fadeToggle(200);
-    });
-});
-
-function startShow() {
-    Sound.play();
-    $("#congratulation-text").text(Config["composition"]["text"]);
-    $('.modal').fadeIn(200);
-    Object.keys(Play).forEach(function (item){
-        playLottie(item);
-    });
-    let t = Config["composition"]["duration"];
-    setTimeout(function () {
-        $('.modal').fadeOut(200);
-        Sound.pause();
-        Sound.currentTime = 0;
-    }, t );
-}
-function resetLottie(id) {
-    setCongig(id);
-    $("#"+id).fadeOut(0);
-}
-function playLottie(id) {
-    resetLottie(id);
-    let delay = Config[id].delay | 0;
-    setTimeout(function () {
-        $("#"+id).fadeIn(100);
-        Play[id].play();
-    }, delay );
-}
 
 function getLotties() {
     let result = [];
@@ -95,7 +32,7 @@ function getLottie(id) {
         container: container,
         renderer: 'svg',
         loop: !!config.loop,
-        autoplay: false,
+        autoplay: true,
         path: config.url,
         rendererSettings: {
             progressiveLoad: true,
@@ -105,28 +42,53 @@ function getLottie(id) {
     result.setSpeed(config.speed);
     return result;
 }
-function setCongig(targetId) {
-    Play[targetId].destroy();
-    Play[targetId] = getLottie(targetId);
+function resetLottie(id) {
+    if (!!Animation[id]){
+        Animation[id].destroy();
+    }
+    Animation[id] = getLottie(id);
 }
-
+function attachLotties(selector) {
+    Object.keys(Animation).forEach(function (item){
+        attachLottie(item, selector);
+    });
+}
+function attachLottie(id, selector) {
+    $(`#${id}`).appendTo(`${selector} [data-animation="${id}"]`);
+}
 function getConfig() {
     let result = [];
     setFormsFromUrl(Url.searchParams);
     $("form").each(function (index) {
         let form = $("form").get(index);
-        let id = getFormTargetId(form);
+        let id = getFormId(form);
         result[id] = getForm(form);
     });
     return result;
 }
-function getFormTargetId(form) {
-    return form.getAttribute('data-target');
+function setConfig(id, key, value) {
+    Config[id][key] = value;
+    Url.searchParams.set(`${id}_${key}`, value);
+    window.history.replaceState(
+        `${id}_${key}: ${value}`,
+        "woohoo!",
+        `${Url.pathname}?${Url.searchParams}`
+    );
 }
+function updateAsset(id, key, value) {
+    if (!!Animation[id]){
+        resetLottie(id);
+    }
+}
+function getFormId(item) {
+    return $(item).closest("form").attr("data-target");
+}
+
 function getForm(form) {
     let result = {};
     let data = $(form).serializeArray();
     data.forEach(function(item) {
+        let id = getFormId(item);
         let value;
         switch (item["name"]) {
             case "loop":
@@ -144,7 +106,7 @@ function getSound() {
     return s[0];
 }
 function soundLoad() {
-    $("#mp3").attr("src", Config["composition"]["sound"]);
+    $("#mp3").attr("src", Config["sound"]["mp3"]);
     Sound.pause();
     Sound.load();
 }
