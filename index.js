@@ -95,6 +95,9 @@ function updateAsset(id) {
     if (id==="message"){
         $("#message-text").text(Config["message"]["text"]);
     }
+    if (id==="sound"){
+        soundLoad();
+    }
 }
 function getFormId(item) {
     return $(item).closest("form").attr("data-target");
