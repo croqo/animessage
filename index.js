@@ -15,6 +15,19 @@ soundLoad();
 //     });
 // });
 
+$("input, select, textarea").on("change", function () {
+    let id = getFormId(this);
+    let name = $(this).attr("name");
+    let value =
+        $(this).val()==="on"
+            ?$(this).prop("checked")
+            :$(this).val()
+    ;
+    setConfig(id, name, value);
+    updateAsset(id);
+});
+
+
 function getLotties() {
     let result = [];
     $('.lottie-player').each(function(index){
@@ -75,9 +88,12 @@ function setConfig(id, key, value) {
         `${Url.pathname}?${Url.searchParams}`
     );
 }
-function updateAsset(id, key, value) {
+function updateAsset(id) {
     if (!!Animation[id]){
         resetLottie(id);
+    }
+    if (id==="message"){
+        $("#message-text").text(Config["message"]["text"]);
     }
 }
 function getFormId(item) {

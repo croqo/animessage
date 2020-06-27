@@ -29,7 +29,7 @@
 <!--</style>-->
 
 
-<div class="modal">
+<div class="modal is-active is-hidden">
     <div class="modal-background has-background-white"></div>
     <div data-animation="background" style="position: absolute; width: 100vw; height: 100vw; z-index: 1"></div>
     <div class="modal-card is-hidden" style="margin-top: -25vh; z-index: 2">
@@ -166,92 +166,78 @@
             </div>
         </div>
         <div id="config-animation" class="hero-foot">
-            <form data-target="background">
-                <div class="columns is-centered notification">
-                    <div class="column is-1"><label class="label">Background animation</label></div>
-                    <div class="column">
-                        <div class="field">
-                            <div class="control">
-                                <input name="url" class="input" type="text" value="https://assets8.lottiefiles.com/packages/lf20_fSIvGi.json">
-                            </div>
-                            <p class="help is-dark">Background animation json</p>
-                        </div>
-                    </div>
-                    <div class="column is-1">
-                        <div class="field is-horizontal">
-                            <div class="field-body">
+            <div class="columns">
+                <div class="column">
+                    <form data-target="background">
+                        <div class="columns is-centered box">
+                            <div class="column">
                                 <div class="field">
                                     <div class="control">
-                                        <input name="loop" type="checkbox" checked>
+                                        <input name="url" class="input" type="text" value="https://assets8.lottiefiles.com/packages/lf20_fSIvGi.json">
                                     </div>
+                                    <p class="level is-mobile help is-dark">
+                                        <span class="level-left">Background animation json</span>
+                                        <span class="level-right field">
+                                    Loop?<span class="icon is-small"><input name="loop" type="checkbox" checked></span>
+                                </span>
+                                    </p>
                                 </div>
                             </div>
-                            <div class="field-label">
-                                <p class="help is-dark">Loop?</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="column is-2">
-                        <div class="field">
-                            <div class="control is-expanded">
-                                <div class="select">
-                                    <select name="speed">
-                                        <option value="0.5">x0.5</option>
-                                        <option selected value="1">Normal</option>
-                                        <option value="1.5">x1.5</option>
-                                        <option value="2">x2.0</option>
-                                        <option value="3">x2.5</option>
-                                    </select>
+                            <div class="column is-narrow">
+                                <div class="field">
+                                    <div class="control is-expanded">
+                                        <div class="select">
+                                            <select name="speed">
+                                                <option value="0.5">x0.5</option>
+                                                <option selected value="1">Normal</option>
+                                                <option value="1.5">x1.5</option>
+                                                <option value="2">x2.0</option>
+                                                <option value="3">x2.5</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <p class="help is-dark">Animation speed</p>
                                 </div>
                             </div>
-                            <p class="help is-dark">Animation speed</p>
                         </div>
-                    </div>
+                    </form>
                 </div>
-            </form>
-            <form data-target="hero">
-                <div class="columns is-centered notification">
-                    <div class="column is-1"><label class="label">Hero animation</label></div>
-                    <div class="column">
-                        <div class="field">
-                            <div class="control">
-                                <input name="url" class="input" type="text" value="https://assets6.lottiefiles.com/private_files/lf30_Y7PQoU.json">
-                            </div>
-                            <p class="help is-dark">Foreground animation json</p>
-                        </div>
-                    </div>
-                    <div class="column is-1">
-                        <div class="field is-horizontal">
-                            <div class="field-body">
+                <div class="column">
+                    <form data-target="hero">
+                        <div class="columns is-centered notification">
+                            <div class="column">
                                 <div class="field">
                                     <div class="control">
-                                        <input name="loop" type="checkbox" checked>
+                                        <input name="url" class="input" type="text" value="https://assets6.lottiefiles.com/private_files/lf30_Y7PQoU.json">
                                     </div>
+                                    <p class="level is-mobile help is-dark">
+                                        <span class="level-left">Foreground animation json</span>
+                                        <span class="level-right field">
+                                    Loop?<span class="icon is-small"><input name="loop" type="checkbox" checked></span>
+                                </span>
+                                    </p>
                                 </div>
                             </div>
-                            <div class="field-label">
-                                <p class="help is-dark">Loop?</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="column is-2">
-                        <div class="field">
-                            <div class="control">
-                                <div class="select">
-                                    <select name="speed">
-                                        <option value="0.5">x0.5</option>
-                                        <option selected value="1">Normal</option>
-                                        <option value="1.5">x1.5</option>
-                                        <option value="2">x2.0</option>
-                                        <option value="3">x2.5</option>
-                                    </select>
+                            <div class="column is-narrow">
+                                <div class="field">
+                                    <div class="control">
+                                        <div class="select">
+                                            <select name="speed">
+                                                <option value="0.5">x0.5</option>
+                                                <option selected value="1">Normal</option>
+                                                <option value="1.5">x1.5</option>
+                                                <option value="2">x2.0</option>
+                                                <option value="3">x2.5</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <p class="help is-dark">Animation speed</p>
                                 </div>
                             </div>
-                            <p class="help is-dark">Animation speed</p>
                         </div>
-                    </div>
+                    </form>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
 </section>
@@ -263,27 +249,11 @@
         let id = $(this).attr("id");
         Animation[id].goToAndPlay(0);
     });
-    $("input, select, textarea").on("change", function (event) {
-        // let this = event.target;
-        let id = getFormId(this);
-        let name = $(this).attr("name");
-        let value;
-        switch (name) {
-            case "loop":
-                value = $(this).prop("checked");
-                break;
-            default:
-                value = $(this).val();
-        }
-        setConfig(id, name, value);
-        updateAsset(id, name, value);
-    });
 
     function startShow() {
         Sound.play();
         attachLotties(".modal");
-        $("#message-text").text(Config["message"]["text"]);
-        $('.modal').addClass('is-active');
+        $('.modal').removeClass("is-hidden");
         Animation["background"].goToAndPlay(0);
 
         let d = Config["foreground"]["delay"]|0;
@@ -293,7 +263,7 @@
         }, d );
         let t = Config["foreground"]["duration"];
         setTimeout(function () {
-            $('.modal').removeClass('is-active');
+            $('.modal').addClass("is-hidden");
             $(".modal-card").addClass("is-hidden");
             Sound.pause();
             Sound.currentTime = 0;
