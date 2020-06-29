@@ -1,39 +1,50 @@
+let Url;
+let Sound;
+let Config;
+let Animation;
 
-let Url = getUrl();
-if (Url.hash!==""){
-    window.history.replaceState(
-        "???",
-        "woohoo!",
-        `${Url.pathname}${atob(Url.hash.slice(1))}`
-    );
+Url=getUrl();
+if (Url.search!==""){
+    replaceUrl(`#${btoa(Url.search)}`);
 }
 
-let Config = getConfig();
-console.log(Config);
-let Animation = getLotties();
-console.log(Animation);
-
-let Sound = getSound();
-soundLoad();
-
-// Object.keys(Config).forEach(function (item) {
-//     Object.keys(Config[item]).forEach(function (key) {
-//         console.log(item+'_'+key+': '+Config[item][key]);
-//     });
-// });
-
+$(document).ready(function () {
+    init();
+});
 $("input, select, textarea").on("change", function () {
-    let id = getFormId(this);
-    let name = $(this).attr("name");
-    let value =
-        $(this).val()==="on"
-            ?$(this).prop("checked")
-            :$(this).val()
-    ;
-    setConfig(id, name, value);
-    updateAsset(id);
+    updateFormItem(this);
 });
 
+function init() {
+    Config=getConfig();
+    Animation=getLotties();
+    Sound=getSound();
+    soundLoad();
+}
+
+function tinyUrl() {
+    let u = Url.origin + Url.pathname + Url.search;
+    $.get(`https://tinyurl.com/api-create.php?url=${u}`, function(shorturl){
+        $("#tinyurl-button").addClass("is-hidden");
+        $("#tinyurl-result i").text(shorturl);
+        $("#tinyurl-result").removeClass("is-hidden");
+        console.log(shorturl);
+    });
+}
+function copyToClipboard(element) {
+    let $temp = $("<input>");
+    $("body").append($temp);
+    $temp.val($(element).text()).select();
+    document.execCommand("copy");
+    $temp.remove();
+}
+function pasteFromClipboard(element) {
+    navigator.clipboard.readText().then(
+        clipText => {
+            $(element).val(clipText);
+            updateFormItem(element);
+        });
+}
 
 function getLotties() {
     let result = [];
@@ -86,14 +97,24 @@ function getConfig() {
     });
     return result;
 }
+function updateFormItem(element) {
+    let id = getFormId(element);
+    let name = $(element).attr("name");
+    let value =
+        $(element).val()==="on"
+            ?$(element).prop("checked")
+            :$(element).val()
+    ;
+    setConfig(id, name, value);
+    updateAsset(id);
+    $("#tinyurl-button").removeClass("is-hidden");
+    $("#tinyurl-result").addClass("is-hidden");
+
+}
 function setConfig(id, key, value) {
     Config[id][key] = value;
     Url.searchParams.set(`${id}_${key}`, value);
-    window.history.replaceState(
-        `${id}_${key}: ${value}`,
-        "woohoo!",
-        `${Url.pathname}?${Url.searchParams}`
-    );
+    replaceUrl(`${Url.search}`);
 }
 function updateAsset(id) {
     if (!!Animation[id]){
@@ -138,7 +159,18 @@ function soundLoad() {
 }
 function getUrl(){
     let href = window.location.href;
-    return new URL(href);
+    let u = new URL(href);
+    if (u.hash!==""){
+        return new URL(`${u.origin}${u.pathname}${atob(u.hash.slice(1))}${u.hash}`);
+    }
+    return u;
+}
+function replaceUrl(str) {
+    window.history.replaceState(
+        "",
+        "",
+        `${Url.pathname}${str}`
+    );
 }
 function setFormsFromUrl(searchParams){
     for(let [name, value] of searchParams) {
