@@ -1,7 +1,7 @@
 let Url = getUrl();
 let Config = getConfig();
 let Play = getLotties();
-let Sound = getSound();
+let Sound = soundGet();
 soundLoad();
 
 $("input, select, textarea").on("change", function (event) {
@@ -30,7 +30,7 @@ $("form button").on("click", function (event) {
     let id = getFormTargetId(
         $(this).closest("form").get(0)
     );
-    setCongig(id);
+    reloadLottie(id);
     playLottie(id);
 });
 $("#config").on("click", function (event) {
@@ -45,9 +45,9 @@ $("#config").on("click", function (event) {
 
 function startShow() {
     $('#config').fadeOut(200);
-    Sound.play();
     $("#congratulation-text").text(Config["composition"]["text"]);
     $('.modal').fadeIn(200);
+    soundPlay();
     playLottie("background");
     let d = Config["foreground"]["delay"];
     setTimeout(function () {
@@ -55,16 +55,15 @@ function startShow() {
         $('.modal-card').fadeIn(200);
     }, d );
     let t = Config["composition"]["duration"];
+    soundStop(t);
     setTimeout(function () {
         $('.modal').fadeOut(200);
         $('.modal-card').fadeOut(200);
-        Sound.pause();
-        Sound.currentTime = 0;
         $('#config').fadeIn(200);
     }, t );
 }
 function resetLottie(id) {
-    setCongig(id);
+    reloadLottie(id);
     $("#"+id).fadeOut(0);
 }
 function playLottie(id) {
@@ -100,7 +99,7 @@ function getLottie(id) {
     result.setSpeed(config.speed);
     return result;
 }
-function setCongig(targetId) {
+function reloadLottie(targetId) {
     Play[targetId].destroy();
     Play[targetId] = getLottie(targetId);
 }
@@ -134,14 +133,30 @@ function getForm(form) {
     });
     return result;
 }
-function getSound() {
+function soundGet() {
     let s = $("#sound");
     return s[0];
 }
 function soundLoad() {
-    $("#mp3").attr("src", Config["composition"]["sound"]);
+    $("#mp3").attr("src", Config["sound"]["mp3"]);
     Sound.pause();
     Sound.load();
+}
+function soundPlay() {
+    Sound.volume = 0;
+    Sound.play();
+    $(Sound).animate({volume: 1.0}, parseInt(Config["sound"]["fadein"]));
+}
+function soundStop(duration=0) {
+    let fadeOut = parseInt(Config["sound"]["fadeout"]);
+    let t = (duration - fadeOut);
+    setTimeout(function () {
+        $(Sound).animate({volume: 0.1}, fadeOut)
+    }, t);
+    setTimeout( function () {
+        Sound.pause();
+        Sound.currentTime = 0;
+    }, duration);
 }
 function getUrl(){
     let href = window.location.href;

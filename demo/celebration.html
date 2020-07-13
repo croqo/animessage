@@ -104,6 +104,9 @@
                             </div>
                         </div>
                     </div>
+                </form>
+
+                <form data-target="sound">
                     <div class="columns is-centered is-vcentered">
                         <div class="column is-2 has-text-right">
                             <label class="label">Mp3 sound file</label>
@@ -112,7 +115,29 @@
                         <div class="column">
                             <div class="field">
                                 <div class="control">
-                                    <input name="sound" class="input" type="text" onchange="soundLoad(this.value)" value="https://croqo.xyz/storage/app/media/vicetone-tony-igy-astronomia-atari-pokey-cover.mp3">
+                                    <input name="mp3" class="input" type="text" onchange="soundLoad(this.value)" value="https://croqo.xyz/storage/app/media/vicetone-tony-igy-astronomia-atari-pokey-cover.mp3">
+                                </div>
+                            </div>
+                            <div class="columns is-centered is-vcentered">
+                                <div class="column is-narrow">
+                                    <label class="label is-small">Fade-In (ms)</label>
+                                </div>
+                                <div class="column">
+                                    <div class="field is-horizontal">
+                                        <div class="control">
+                                            <input name="fadein" class="input" type="number" step="1000" value="0">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="column is-narrow">
+                                    <label class="label is-small">Fade-Out (ms)</label>
+                                </div>
+                                <div class="column">
+                                    <div class="field is-horizontal">
+                                        <div class="control">
+                                            <input name="fadeout" class="input" type="number" step="1000" value="0">
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
