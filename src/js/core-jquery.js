@@ -88,48 +88,4 @@ export default class Core
     });
     return result;
 }
-    static getLotties() {
-    let result = [];
-    $('.lottie-player').each(function(index){
-        let player = $('.lottie-player').get(index);
-        let id = player.getAttribute('id');
-        result[id] = Core.getLottie(id);
-    });
-    console.log(result);
-    return result;
-}
-
-static getLottie(id) {
-    let c = Core.getConfig();
-    let config = c[id];
-    let container = document.getElementById(id);
-    let result = lottie.loadAnimation({
-        container: container,
-        renderer: 'svg',
-        loop: !!config.loop,
-        autoplay: true,
-        path: config.url,
-        rendererSettings: {
-            progressiveLoad: true,
-            preserveAspectRatio: 'xMidYMid slice'
-        }
-    }
-);
-    result.setSpeed(config.speed);
-    return result;
-}
-    static resetLottie(id) {
-    if (!!Animation[id]){
-        Animation[id].destroy();
-    }
-    Animation[id] = getLottie(id);
-}
-    static attachLotties(selector) {
-    Object.keys(Animation).forEach(function (item){
-        attachLottie(item, selector);
-    });
-}
-    static attachLottie(id, selector) {
-        $(`#${id}`).appendTo(`${selector} [data-animation="${id}"]`);
-    }
 }
