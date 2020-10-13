@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import Route from "./url";
+import Route from "./route";
 
 
 export default class Core
