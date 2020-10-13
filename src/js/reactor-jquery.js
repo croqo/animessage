@@ -1,4 +1,6 @@
 import $ from 'jquery';
+import Animation from './animation';
+
 
 export default class Reactor
 {
@@ -17,4 +19,15 @@ export default class Reactor
                 break;
         }
     }
-}
+    static updateAsset(id) {
+        let a = Animation.getLotties();
+    if (!!a[id]){
+        resetLottie(id);
+    }
+    if (id==="message"){
+        $("#message-text").text(Config["message"]["text"]);
+    }
+    if (id==="sound"){
+        soundLoad();
+    }
+}}
