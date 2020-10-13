@@ -1,5 +1,8 @@
 'use strict';
 
+import Core from "./core-jquery";
+import $ from "jquery";
+
 let defaults = {
     id: 'none',
     path: 'x',
@@ -18,4 +21,20 @@ export default class Lottie
         this.loop = (!!Obj.loop) ? Obj.loop : defaults.loop;
         this.speed = (!!Obj.speed) ? Obj.speed : defaults.speed;
     }
+    static async getEmAll() {
+        let result = [];
+        Core.getConfig().then(function (config)
+            {
+                $('.lottie-player').each(function(index){
+                    let player = $('.lottie-player').get(index);
+                    let id = player.getAttribute('id');
+                    let c = config[id];
+                    c.id = id;
+                    result[id] = new Lottie(c);
+                });
+            }
+        );
+        return result;
+    }
+
 }
