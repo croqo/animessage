@@ -3,6 +3,7 @@
 import Core from "./core-jquery";
 import $ from "jquery";
 import lottie from "lottie-web";
+import Model from "./model";
 
 let defaults = {
     id: 'none',
@@ -13,20 +14,10 @@ let defaults = {
     // container: $('figure.lottie-player')
 }
 
-export default class Lottie
+export default class Lottie extends Model
 {
-    constructor(Obj=defaults) {
-        for (const [key, value] of Object.entries(Obj))
-        {
-            Object.defineProperty(
-                this,
-                key,
-                {
-                    value: value,
-                    writable: true,
-                    enumerable: true
-                });
-        }
+    constructor(Obj) {
+        super(Obj);
         this.container = $(Core.selector(this.id)+' '+Lottie.selector()).get(0);
     }
     static selector()

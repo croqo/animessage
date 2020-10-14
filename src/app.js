@@ -1,8 +1,8 @@
 import $ from 'jquery';
-window.$ = window.jQuery = $;
+// window.$ = window.jQuery = $;
 
 import lottie from 'lottie-web';
-window.lottie = lottie;
+// window.lottie = lottie;
 
 
 // let Sound;
@@ -12,7 +12,7 @@ import Reactor from './js/reactor-jquery';
 window.a.Reactor = Reactor;
 import Route from './js/route';
 // import Animation from './js/animation';
-import Lottie from './js/lottie';
+import Lottie from './js/lottie-jquery';
 // import Clipboard from './js/clipboard';
 
 $(document).ready(function () {

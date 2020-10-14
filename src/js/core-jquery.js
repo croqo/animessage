@@ -1,6 +1,6 @@
 import $ from 'jquery';
 import Route from "./route";
-
+import Reactor from "./reactor-jquery";
 
 export default class Core
 {
@@ -16,10 +16,10 @@ export default class Core
             : `form[data-target="${id}"]`;
     }
     static async getConfig() {
-        let result = {};
+        let result = [];
         $("form").each(function (index) {
             let form = $("form").get(index);
-            let id = Core.getFormId(form);
+            let id = Reactor.getFormId(form);
             result[id] = Core.getForm(form);
         });
         console.log(result);
@@ -74,9 +74,6 @@ export default class Core
         });
     }
 
-    static getFormId(item) {
-    return $(item).closest('form').data('target');
-}
     static getForm(form) {
     let result = [];
     let data = $(form).serializeArray();
