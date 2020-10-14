@@ -9,8 +9,13 @@ export default class Core
         this.url = new Route();
         this.setFormsFromUrl();
     }
-
-    static getConfig() {
+    static selector(id)
+    {
+        return (id === 'none')
+            ? ''
+            : `form[data-target="${id}"]`;
+    }
+    static async getConfig() {
         let result = {};
         $("form").each(function (index) {
             let form = $("form").get(index);
@@ -57,7 +62,7 @@ export default class Core
         url.searchParams.forEach(function(value, key) {
             console.log(key, value);
             let a = key.split("_");
-            let selector = `form[data-target="${a[0]}"]`;
+            let selector = Core.selector(a[0]);
             switch (a[1]) {
                 case 'loop':
                     $(selector + ' [name="loop"]').attr('checked', value !== "false");

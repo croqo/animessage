@@ -8,11 +8,11 @@ let defaults = {
     id: 'none',
     path: 'none',
     auto: true,
-    loop: false,
+    loop: true,
     speed: 1.01,
-    container: $('figure.lottie-player')
+    // container: $('figure.lottie-player')
 }
-'use strict'
+
 export default class Lottie
 {
     constructor(Obj=defaults) {
@@ -27,9 +27,12 @@ export default class Lottie
                     enumerable: true
                 });
         }
-        console.log(this);
+        this.container = $(Core.selector(this.id)+' '+Lottie.selector()).get(0);
     }
-
+    static selector()
+    {
+        return `figure.lottie-player`;
+    }
     static async getEmAll() {
         let result = [];
         Core.getConfig().then(function (config)
@@ -51,8 +54,9 @@ export default class Lottie
     static async getFromContainer(container)
     {
         let id = container.id;
-        let c = Core.getConfig().then(function (cfg)
+        Core.getConfig().then(function (c)
         {
+            console.log(c);
             let r = new Lottie(c);
                 r.id = id;
                 r.container = container;
@@ -62,11 +66,11 @@ export default class Lottie
     static async build(model)
     {
         let r = lottie.loadAnimation({
-            path: model.path | false,
+            path: model.path,
             container: model.container,
             renderer: 'svg',
             loop: !!model.loop,
-            autoplay: !!model.auto,
+            autoplay: !!model.auto || true,
             rendererSettings: {
                 progressiveLoad: true,
                 preserveAspectRatio: 'xMidYMid slice'
