@@ -2,14 +2,26 @@ import Model from "./model";
 
 export default class Url
 {
+    static separator() { return '_' }
+    /**
+     * get actual href string
+     * @returns {Promise<string>}
+     */
     static async now()
     {
         return window.location.href;
     }
+
+    /**
+     * Split searchParams keys to parent_id, keys
+     * @param {string} key
+     * @returns {*|string[]}
+     */
     static split(key)
     {
-        return key.split('_'); // array[0]: id, array[1]: property
+        return key.split(Url.separator()); // array[0]: id, array[1]: property
     }
+
     constructor() {
         Object.defineProperty(
             this,
@@ -21,6 +33,11 @@ export default class Url
                 writable: false
             });
     }
+
+    /**
+     * Collect data from searchParams
+     * @returns {[]} array[id]{property, value}
+     */
     get data()
     {
         let result = [];
@@ -36,8 +53,7 @@ export default class Url
                 result[id].add(prop, val);
             }
         );
-        return result; // array[id]{property, value}
-
+        return result;
     }
     static encode(queryString)
     {
