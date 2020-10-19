@@ -4,4 +4,8 @@ export default class Content extends Map
     {
        this.set("type", T[t]);
     }
+    get type()
+    {
+        return this.get("type").name();
+    }
 }
