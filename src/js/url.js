@@ -1,21 +1,15 @@
 import Model from "./model";
+import $ from "jquery";
+import Event from "./event";
 
 export default class Url
 {
     static separator() { return '_' }
-    /**
-     * get actual href string
-     * @returns {Promise<string>}
-     */
-    static async now()
-    {
-        return window.location.href;
-    }
 
     /**
      * Split searchParams keys to parent_id, keys
      * @param {string} key
-     * @returns {*|string[]}
+     * @returns {[]}
      */
     static split(key)
     {
@@ -27,33 +21,76 @@ export default class Url
             this,
             'api',
             {
-                value: new URL(window.location.href),
-                configurable: false,
-                enumerable: false,
-                writable: false
+                value: new URL(window.location.href)
+            });
+        $(globalThis).trigger('url_api_ready');
+
+        Object.defineProperty(
+            this,
+            'data',
+            {
+                enumerable: true,
+                get() {
+                    let result = new C();
+                    this.api.searchParams.forEach(
+                        (val, key) => {
+                            let k = Url.split(key);
+                            let id = k[0];
+                            let prop = k[1];
+
+                            result[id] = (id in result)
+                                ? result[id]
+                                : new C();
+                            result[id].set(prop, val);
+                        }
+                    );
+                    $(global).trigger('url_data_ready');
+                    return result;
+                }
             });
     }
-
     /**
-     * Collect data from searchParams
-     * @returns {[]} array[id]{property, value}
+     * Set searchParams with Model {keys, values}
+     * @param {C} model
      */
-    get data()
+    set data(model)
     {
-        let result = [];
-        this.api.searchParams.forEach(
-            (val, key) => {
-                let k = Url.split(key);
-                let id = k[0];
-                let prop = k[1];
-
-                result[id] = (id in result)
-                    ? result[id]
-                    : new Model({id: id});
-                result[id].add(prop, val);
-            }
+        if (id in model)
+        {
+            Object.keys(model).forEach(key =>
+            {
+                if (key !== 'id')
+                {
+                    this.api.searchParams.append(
+                        id + Url.separator + key,
+                        model[key]
+                    );
+                }
+            });
+            this.replaceWith(
+                this.api.searchParams.toString()
+            ).then(function ()
+                {
+                    return true;
+                });
+        }
+    }
+    async replaceWith(str) {
+      window.history.replaceState(
+              "",
+              "",
+              `${this.api.pathname}${str}`
+      );
+    }
+    get string()
+    {
+        return this.api.pathname + this.api.search + this.api.hash;
+    }
+    set string(str)
+    {
+        this.replaceWith(str).then(
+            Event.trigger('url_change')
         );
-        return result;
     }
     static encode(queryString)
     {
