@@ -1,8 +1,14 @@
+import Model from "./model";
+
 export default class Url
 {
     static async now()
     {
         return window.location.href;
+    }
+    static split(key)
+    {
+        return key.split('_'); // array[0]: id, array[1]: property
     }
     constructor() {
         Object.defineProperty(
@@ -20,17 +26,17 @@ export default class Url
         let result = [];
         this.api.searchParams.forEach(
             (val, key) => {
-                let t = key.split('_');
-                let id = t[0];
-                let option = [t[1], val];
+                let k = Url.split(key);
+                let id = k[0];
+                let prop = k[1];
 
                 result[id] = (id in result)
-                    ? result[id].concat([option])
-                    : [option];
-                ;
+                    ? result[id]
+                    : new Model({id: id});
+                result[id].add(prop, val);
             }
         );
-        return result; // array[id][key, value]
+        return result; // array[id]{property, value}
 
     }
     static encode(queryString)
