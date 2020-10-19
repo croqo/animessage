@@ -1,22 +1,39 @@
-import $ from 'jquery';
-// window.$ = window.jQuery = $;
-
+import jquery from 'jquery';
 import lottie from 'lottie-web';
-// window.lottie = lottie;
 
+import Url from './js/url';
+import Event from "./js/event";
+import Content from "./js/content";
+import Enum from 'node-enumjs';
 
-// let Sound;
-window.a = {};
-import Core from './js/core-jquery';
-import Reactor from './js/reactor-jquery';
-window.a.Reactor = Reactor;
-import Route from './js/route';
-// import Animation from './js/animation';
-import Lottie from './js/lottie-jquery';
-// import Clipboard from './js/clipboard';
+let Type = Enum.define("Type",
+        {
+            constants:
+                {
+                    raw: {},
+                    message: {"text": "text" },
+                    lottie: {"path": "path", "loop":"loop", "speed":1},
+                    sound: {"path": "path"}
+                }
+        }
+    );
 
+Object.assign(
+    globalThis,{
+        $: jquery,
+        L: lottie,
+        C: Content,
+        u: new Url(),
+        E: Event,
+        T: Type
+    });
 $(document).ready(function () {
-    // let Url = Route.new();
+    console.log(u.data);
+    let c = new Content();
+    c.type = "message";
+    console.log(c);
+
+    // u.string = 'yay';
     // let c = new Core();
     // console.log(c);
     Lottie.getEmAll().then(function (res){
