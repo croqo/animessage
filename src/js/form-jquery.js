@@ -3,7 +3,12 @@ import $ from "jquery";
 
 export default class Form extends Model
 {
-    static default(){return 'form'};
+    static selector(id='')
+    {
+        return (id==='')
+            ?'form'
+            :`form[data-id="${id}"]`
+    };
 
     constructor(form) {
         super(
@@ -12,18 +17,13 @@ export default class Form extends Model
                 Form.serialize(form)
             )
         );
+        this.add('id', Form.getFormId(form));
     }
 
     get selector()
     {
-        return (typeof id.toString() === 'string' && id !== Form.default())
-            ? `form[data-target="${this.id}"]`
-            : Form.default();
+        return Form.selector(this.id);
     }
-
-    get id(){
-        return this.target;
-    };
 
     static serialize(form)
     {
@@ -45,9 +45,32 @@ export default class Form extends Model
         return result;
     }
 
-    static async getForm(form) {
-        return new Form(form);
+    static async getEm() {
+        let result = [];
+        $(Form.selector()).each(function()
+        {
+            // this - every form element
+            let form = new Form(this);
+            result[form.id] = form;
+        });
+        return result;
     }
 
+    static getFormId(item) {
+        return $(item).closest(Form.selector()).data('id');
+    }
+    static updateFormItem(element) {
+        let id = Form.getFormId(element);
+        let name = $(element).attr("name");
+        let value =
+            $(element).val()==="on"
+                ?$(element).prop("checked")
+                :$(element).val()
+        ;
+        // setConfig(id, name, value);
+        // updateAsset(id);
+        // $("#tinyurl-button").removeClass("is-hidden");
+        // $("#tinyurl-result").addClass("is-hidden");
+    }
 
 }
