@@ -1,5 +1,7 @@
 export default class Data
 {
+    static separator() { return "_" }
+
     constructor() {
         Object.defineProperty(
             this, "$",

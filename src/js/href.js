@@ -1,11 +1,10 @@
 import Model from "./model";
 import $ from "jquery";
-import Event from "./event";
+import {Event} from "./event";
 import Data from "./data";
 
 export default class Href extends URL
 {
-    static separator() { return '_' }
 
     /**
      * Split searchParams keys to parent_id, keys
@@ -14,7 +13,7 @@ export default class Href extends URL
      */
     static split(key)
     {
-        return key.split(Href.separator()); // array[0]: id, array[1]: property
+        return key.split(Data.separator()); // array[0]: id, array[1]: property
     }
 
     constructor() {
@@ -42,7 +41,7 @@ export default class Href extends URL
         {
             for (let [k, v] of m)
             {
-                let key = id + Href.separator() + k;
+                let key = id + Data.separator() + k;
                 this.query = [key, v];
             }
         }
