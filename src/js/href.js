@@ -23,7 +23,7 @@ export default class Href extends URL
     }
     get data()
     {
-        let result = new Map();
+        let result = new Data();
         for (let [key, v] of this.query)
         {
             let k = Href.split(key);
@@ -31,14 +31,9 @@ export default class Href extends URL
             let prop = (k[1]!== '' && typeof k[1] !== 'undefined')
                 ? k[1]
                 : "default";
-
-            result[id] = (id in result)
-                ? result[id]
-                : new Map()
-            ;
-            result[id].set(prop, v);
+            result.import(id, prop, v);
         }
-        return result;
+        return result.export();
     }
     set data(map)
     {
