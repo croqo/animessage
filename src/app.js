@@ -1,52 +1,64 @@
 import jquery from 'jquery';
 import lottie from 'lottie-web';
 
-import Url from './js/url';
-import Event from "./js/event";
-import Content from "./js/content";
-import Enum from 'node-enumjs';
+import Href from './js/href';
+import {Event, Tic, Tok} from "./js/event";
 
-let Type = Enum.define("Type",
-        {
-            constants:
-                {
-                    raw: {},
-                    message: {"text": "text" },
-                    lottie: {"path": "path", "loop":"loop", "speed":1},
-                    sound: {"path": "path"}
-                }
-        }
-    );
+import Data from "./js/data";
+import Enum from 'node-enumjs';
+import Player from "./js/player";
+import Config from "./js/config";
+import Form from "./js/form";
+
+// let Type = Enum.define("Type",
+//         {
+//             constants:
+//                 {
+//                     raw: {},
+//                     message: {"text": "text" },
+//                     lottie: lottie
+//                 }
+//         }
+//     );
 
 Object.assign(
     globalThis,{
         $: jquery,
-        L: lottie,
-        C: Content,
-        u: new Url(),
-        E: Event,
-        T: Type
+        lottie: lottie,
+        xDat:   new Data(),
+        xTyp:   Enum,
+        xCfg:   Config,
+        xUrl:   new Href(),
+        xEvt:   Event
     });
+
 $(document).ready(function () {
-    console.log(u.data);
-    let c = new Content();
-    c.type = "message";
-    console.log(c);
-
-    // u.string = 'yay';
-    // let c = new Core();
-    // console.log(c);
-    Lottie.getEmAll().then(function (res){
-        // console.log(res);
-        Object.keys(res).forEach(function ($key, index, array)
+//     Object.assign(
+//         globalThis,{
+// });
+    xCfg.getEm().then(function (forms)
         {
-            let model = new Lottie(res[$key]);
-            console.log(model);
-
-            Lottie.build(model).then(function (res)
+            // console.log(x.Data);
+            xDat.merge(forms);
+            xUrl.get()
+                .then(query =>
             {
-                console.log(res);
+                xDat.merge(query);
             });
         });
-    })
+
+    console.log(xDat.export());
+    // Lottie.getEmAll().then(function (res){
+    //     // console.log(res);
+    //     Object.keys(res).forEach(function ($key, index, array)
+    //     {
+    //         let model = new Lottie(res[$key]);
+    //         console.log(model);
+    //
+    //         Lottie.build(model).then(function (res)
+    //         {
+    //             console.log(res);
+    //         });
+    //     });
+    // })
 });
