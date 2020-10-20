@@ -1,46 +1,40 @@
-import Url from "./url";
-
-export default class Data extends Map
+export default class Data
 {
     constructor() {
-        super();
         Object.defineProperty(
-            this, "bank",
+            this, "$",
             {
-                value: new Map(),
+                value: new Object({}),
                 writable: true
             },
         );
     }
-    merge(obj)
+    merge(data)
     {
-        this.bank = Object.assign(
-            obj, this.bank
-        );
-    }
-    import(id, key, val=false) {
-        this.bank[id] = (id in this.bank)
-            ? this.bank[id]
-            : new Map();
+        if (data instanceof Data)
+        { data = data.export() }
 
-        val ? this.bank[id].set(key, val)
-            : this.bank[id] = key;
-    }
-
-    // export data to url.searchParameters
-    export() {
-        let result = new Map();
-        const it_1 = this.bank.keys();
-        while (!it_1.done) {
-            let id = it_1.next().value;
-            const it_2 = this.bank[id].keys();
-            while (!it_2.done) {
-                let key = it_2.next().value;
-                let val = this.bank[id][key];
-                let url_key = id + Url.separator() + key;
-                result.set(url_key, val);
+        for (let id in data)
+        {
+            if (data.hasOwnProperty(id))
+            {
+                for (let [k, v] of data[id])
+                {
+                    this.import(id, k, v);
+                }
             }
         }
-        return result;
+    }
+    import(id, key, val=false) {
+        this.$[id] = (id in this.$)
+            ? this.$[id]
+            : new Map();
+
+        val ? this.$[id].set(key, val)
+            : this.$[id] = key;
+    }
+    // export data as Object
+    export() {
+        return this.$;
     }
 }
