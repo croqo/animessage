@@ -11,6 +11,12 @@ export default class Data
             },
         );
     }
+    static map(data)
+    {
+        return Object.assign(
+            new Map(), data
+        );
+    }
     merge(data)
     {
         if (data instanceof Data)
