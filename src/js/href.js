@@ -20,6 +20,10 @@ export default class Href extends URL
         let href = window.location.href;
         super(href);
     }
+    async get()
+    {
+        return this.data
+    }
     get data()
     {
         let result = new Data();
