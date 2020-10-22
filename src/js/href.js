@@ -27,7 +27,7 @@ export default class Href extends URL
     get data()
     {
         let result = new Data();
-        for (let [key, v] of this.query)
+        for (let [key, v] of this.searchParams)
         {
             let k = Href.split(key);
             let id = k[0];
@@ -36,17 +36,24 @@ export default class Href extends URL
                 : "default";
             result.import(id, prop, v);
         }
-        return result.export();
+        return result.get();
     }
+
+    /**
+     *
+     * @param {Map} map
+     */
     set data(map)
     {
-        if (map instanceof "Map"){}
-        for (let [id, m] of map)
+        if (map instanceof "Map")
         {
-            for (let [k, v] of m)
+            for (let [id, m] of map)
             {
-                let key = id + Data.separator() + k;
-                this.query = [key, v];
+                for (let [k, v] of m)
+                {
+                    let key = id + Data.separator() + k;
+                    this.query = [key, v];
+                }
             }
         }
     }
@@ -59,16 +66,22 @@ export default class Href extends URL
                 result.set(key,value);
             }
         );
+        console.log(result);
         return result;
     }
-    set query([key, value])
+
+    /**
+     *
+     * @param {$Keys,$Values} map
+     */
+    set query(map)
     {
-        this.searchParams.append(key, value);
-        this.replaceWith(this.search)
-            .then(function ()
+        map.forEach((value, key) =>
         {
+            this.searchParams.append(key, value);
             console.log("query updated: "+key+" => "+value);
         });
+        this.string = this.search;
     }
 
     async replaceWith(str) {

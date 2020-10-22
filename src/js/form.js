@@ -1,5 +1,6 @@
 import Model from "./model";
 import $ from "jquery";
+import Data from "./data";
 
 export default class Form extends Model
 {
@@ -11,13 +12,12 @@ export default class Form extends Model
     };
 
     constructor(form) {
+        console.log(form);
         super(
             Object.assign(
-                $(form).data(),
                 Form.serialize(form)
             )
         );
-        this.add('id', Form.getFormId(form));
     }
 
     get selector()
@@ -28,9 +28,9 @@ export default class Form extends Model
     static serialize(form)
     {
         let array = $(form).serializeArray();
-        let result = [];
+        let result = new Map();
         $.each(array, function (i){
-            console.log();
+            // console.log(array);
             let item = array[i];
             let value;
             switch (item["name"]) {
@@ -40,18 +40,26 @@ export default class Form extends Model
                 default:
                     value = item["value"];
             }
-            result[item["name"]] = value;
+            result.set(item["name"], item["value"]);//[item["name"]] = value;
         });
         return result;
     }
 
     static async getEm() {
-        let result = [];
+        let result = new Map();
         $(Form.selector()).each(function()
         {
             // this - every form element
-            let form = new Form(this);
-            result[form.id] = form;
+            let id = Form.getFormId(this);
+            $(Form.serialize(this)).each(function ()
+            {
+                // this - every element property Map([key, value])
+                // console.log(this);
+                result.set(
+                    id,
+                    this
+                );
+            });
         });
         return result;
     }

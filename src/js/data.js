@@ -6,43 +6,53 @@ export default class Data
         Object.defineProperty(
             this, "$",
             {
-                value: new Object({}),
+                value: new Map(),
                 writable: true
             },
         );
     }
-    static map(data)
+    // export data as Map
+    get() {
+        return this.$;
+    }
+    // import data
+    set(data)
     {
-        return Object.assign(
-            new Map(), data
-        );
+        this.merge(data);
+    }
+    id(id)
+    {
+        if (! this.$.has(id) ) this.$.set(id, new Map());
+        return this.$.get(id);
     }
     merge(data)
     {
         if (data instanceof Data)
-        { data = data.export() }
+        { data = data.get() }
 
-        for (let id in data)
-        {
-            if (data.hasOwnProperty(id))
+        if (data instanceof Map)
+        { data.forEach((
+            (map, id) =>
             {
-                for (let [k, v] of data[id])
+                // console.log(value, key);
+                id = this.id(id);
+                if (map instanceof Map)
                 {
-                    this.import(id, k, v);
+                    map.forEach((
+                        (value, key) =>
+                        {
+                            id.set(key,value);
+                        }));
                 }
-            }
-        }
+            }))}
     }
     import(id, key, val=false) {
-        this.$[id] = (id in this.$)
-            ? this.$[id]
-            : new Map();
-
-        val ? this.$[id].set(key, val)
-            : this.$[id] = key;
-    }
-    // export data as Object
-    export() {
-        return this.$;
+        if (!val)
+        {
+            this.$.set(id, key);
+        } else {
+            let i = this.id(id);
+            i.set(key, val);
+        }
     }
 }
