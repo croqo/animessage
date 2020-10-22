@@ -2,7 +2,12 @@ export default class Data
 {
     static separator() { return "_" }
 
-    constructor() {
+    /**
+     *
+     * @param {Map}imported
+     */
+    constructor(imported = new Map()) {
+
         Object.defineProperty(
             this, "$",
             {
@@ -10,9 +15,10 @@ export default class Data
                 writable: true
             },
         );
+        if (imported.size > 0) this.set(imported);
     }
     // export data as Map
-    get() {
+    x() {
         return this.$;
     }
     // import data
@@ -28,7 +34,7 @@ export default class Data
     merge(data)
     {
         if (data instanceof Data)
-        { data = data.get() }
+        { data = data.x() }
 
         if (data instanceof Map)
         { data.forEach((
