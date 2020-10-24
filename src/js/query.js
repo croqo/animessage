@@ -1,6 +1,4 @@
-import {Howl} from "howler";
 import $ from "jquery";
-import {Event} from "./event";
 import Data from "./data";
 
 export default class Query extends URL
@@ -31,35 +29,50 @@ export default class Query extends URL
             function (value, key, parent)
             {
                 let i = Query.split(key);
-                result[i[0]] = (i[0] in result) ? result[i[0]] : {["name"]:i[0]};
-                if (typeof i[1] === "undefined") i[1] = "default";
+                let id = i[0];
+                let prop = i[1];
+                let v = {["name"]:id};
+
+                result[id] = (id in result)
+                    ? result[id]
+                    : v
+                ;
+
+                if (typeof id === "undefined") { id = "default" }
+                v = {[prop]: value};
+                result[id] = {...result[id], ...v};
+            });
+        return {...result};
+    }
 
                 // get JSON if found
-                if (new RegExp(/\w.json$/).test(value)===true)
-                {
-                    $.getJSON(value,{},
-                        function (json)
-                        {   result[i[0]]["animationData"]= json    });
-                    console.log("json: "+value)
-
-                }
+                // if (new RegExp(/\w.json$/).test(value)===true)
+                // {
+                //     $.getJSON(value,
+                //         function (json)
+                //         {
+                //
+                //
+                //         }).done(function (json){
+                //         v = {["animationData"]: json}
+                //     });
+                //     // v = {["path"]: value}
+                //     // console.log(v);
+                // }
 
                 // get MP3 if found
-                if (new RegExp(/\w.mp3$/).test(value)===true)
-                {
-                    result[i[0]]["audioFactory"] = new Howl(
-                        {
-                            src: [value]
-                        });
-                    console.log("mp3: "+value)
-                }
+                // else if (new RegExp(/\w.mp3$/).test(value)===true)
+                // {
+                //     v = { ["audioFactory"]: new Howl({ src: [value]  }    )};
+                //     // $(document).trigger("audio_loaded", [i[0]], result);
+                //     // console.log("mp3: "+value);
+                //     // console.log(v);
+                // }
+                // {  v = {[prop]:value} }
+                // console.log(v);
 
-                result[i[0]][i[1]]=value;
-            }
-        );
-        console.log(result);
-        return result;
-    }
+        // console.log(result);
+
 
     /**
      *
