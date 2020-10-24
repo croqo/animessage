@@ -43,6 +43,17 @@ export default class Query extends URL
                     console.log("json: "+value)
 
                 }
+
+                // get MP3 if found
+                if (new RegExp(/\w.mp3$/).test(value)===true)
+                {
+                    result[i[0]]["audioFactory"] = new Howl(
+                        {
+                            src: [value]
+                        });
+                    console.log("mp3: "+value)
+                }
+
                 result[i[0]][i[1]]=value;
             }
         );
