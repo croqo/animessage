@@ -1,14 +1,9 @@
 import jquery from 'jquery';
 import lottie from 'lottie-web';
-
-import Href from './js/href';
-import {Event, Tic, Tok} from "./js/event";
-
-import Data from "./js/data";
-import Enum from 'node-enumjs';
-import Player from "./js/player";
-import Config from "./js/config";
-import Form from "./js/form";
+import {Howl} from 'howler'
+import Player, {player, PlayerConfig} from "./js/player";
+import $ from "jquery";
+import Query from "./js/query";
 
 // let Type = Enum.define("Type",
 //         {
@@ -20,45 +15,77 @@ import Form from "./js/form";
 //                 }
 //         }
 //     );
-
 Object.assign(
-    globalThis,{
+    window,{
         $: jquery,
         lottie: lottie,
-        xDat:   new Data(),
-        xTyp:   Enum,
-        xCfg:   Config,
-        xUrl:   new Href(),
-        xEvt:   Event
+        Howl:   Howl,
+        xQ: new Query(),
+        xP: {}
+    });
+window.x = new Proxy({}, {
+    get: function(object, property) {
+        return object.hasOwnProperty(property) ? object[property] : {};
+    }
+});
+
+// Event handlers
+$(document).on("query", function ()
+{
+    xQ.get().then(function (res)
+    {
+        for (let i in res)
+        {
+            x[i] =
+                {
+                    ...x[i],
+                    ...res[i]
+                };
+                x[i]["player"] = Player.get(x[i]);
+
+            console.log(x[i]);
+        }
+
     });
 
-$(document).ready(function () {
-//     Object.assign(
-//         globalThis,{
+});
+// $(document).on("audio_loaded", function (e, element)
+// {
+//     globalThis.x[element.name]["audioFactory"] = element["audioFactory"];
+//     $(document).trigger("player", element, e);
 // });
-    xCfg.getEm().then(function (forms)
-        {
-            // console.log(x.Data);
-            xDat.merge(forms);
-            xUrl.get()
-                .then(query =>
+// $(document).on("json_loaded", function (e ,id)
+// {
+//     console.log(id);
+//     console.log(e);
+//     globalThis.x[id] = {...globalThis.x[id], e};
+//     // $(document).trigger("player", element, e);
+// });
+function createSound(assetPath) {
+    return
+}
+$(document).trigger("query");
+$(document).ready(function () {
+    window.motion = {}
+    for (let i in x)
+    {
+        motion[i] =
             {
-                xDat.merge(query);
-            });
-        });
-
-    console.log(xDat.export());
-    // Lottie.getEmAll().then(function (res){
-    //     // console.log(res);
-    //     Object.keys(res).forEach(function ($key, index, array)
-    //     {
-    //         let model = new Lottie(res[$key]);
-    //         console.log(model);
-    //
-    //         Lottie.build(model).then(function (res)
-    //         {
-    //             console.log(res);
-    //         });
-    //     });
-    // })
+                sound: new Howl({
+                    src: [(x[i].audio)]
+                }),
+                anima: lottie.loadAnimation(
+                    {
+                        path: x[i]["path"],
+                        autoplay: false,
+                        container: Player.container(i)
+                    }),
+                play: function ()
+                {
+                    this.anima.play();
+                    this.sound.play();
+                }
+            }
+    }
+    console.log(motion);
 });
