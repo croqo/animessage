@@ -1,4 +1,4 @@
-import Model from "./model";
+import {Howl} from "howler";
 import $ from "jquery";
 import {Event} from "./event";
 import Data from "./data";
