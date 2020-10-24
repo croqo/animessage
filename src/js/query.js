@@ -31,7 +31,7 @@ export default class Query extends URL
             function (value, key, parent)
             {
                 let i = Query.split(key);
-                result[i[0]] = (i[0] in result) ? result[i[0]] : {};
+                result[i[0]] = (i[0] in result) ? result[i[0]] : {["name"]:i[0]};
                 if (typeof i[1] === "undefined") i[1] = "default";
 
                 // get JSON if found
@@ -70,7 +70,10 @@ export default class Query extends URL
         for (let key in map){
             if (map.hasOwnProperty(key))
             {
-                this.searchParams.append(key, map[key]);
+                if (key!=="name")
+                {
+                    this.searchParams.append(key, map[key]);
+                }
             }
             $(document).trigger("query");
         }
