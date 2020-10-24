@@ -33,6 +33,16 @@ export default class Query extends URL
                 let i = Query.split(key);
                 result[i[0]] = (i[0] in result) ? result[i[0]] : {};
                 if (typeof i[1] === "undefined") i[1] = "default";
+
+                // get JSON if found
+                if (new RegExp(/\w.json$/).test(value)===true)
+                {
+                    $.getJSON(value,{},
+                        function (json)
+                        {   result[i[0]]["animationData"]= json    });
+                    console.log("json: "+value)
+
+                }
                 result[i[0]][i[1]]=value;
             }
         );
