@@ -1,0 +1,33 @@
+body {
+    overflow: hidden;
+}
+.surface {
+    position: absolute;
+    overflow: visible;
+    width: 100vw;
+    height: 100vh;
+    left: 0;
+    top: 0;
+
+    z-index: 1;
+}
+.glass {
+    z-index: 2;
+    background: white;
+    opacity: 0.5;
+}
+.anchor {
+    position: absolute;
+    z-index: -1;
+    top: 50vh;
+    left: 50vw;
+    overflow: hidden;
+}
+.box {
+    position: absolute;
+    left: 20vw;
+    top: 30vh;
+    width: 60vw;
+    height: 40vh;
+    z-index: 5;
+}

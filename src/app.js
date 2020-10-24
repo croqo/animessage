@@ -4,6 +4,8 @@ import {Howl} from 'howler'
 import Player, {player, PlayerConfig} from "./js/player";
 import $ from "jquery";
 import Query from "./js/query";
+import "./style.css";
+
 
 // let Type = Enum.define("Type",
 //         {
@@ -49,21 +51,6 @@ $(document).on("query", function ()
     });
 
 });
-// $(document).on("audio_loaded", function (e, element)
-// {
-//     globalThis.x[element.name]["audioFactory"] = element["audioFactory"];
-//     $(document).trigger("player", element, e);
-// });
-// $(document).on("json_loaded", function (e ,id)
-// {
-//     console.log(id);
-//     console.log(e);
-//     globalThis.x[id] = {...globalThis.x[id], e};
-//     // $(document).trigger("player", element, e);
-// });
-function createSound(assetPath) {
-    return
-}
 $(document).trigger("query");
 $(document).ready(function () {
     window.motion = {}
@@ -78,14 +65,35 @@ $(document).ready(function () {
                     {
                         path: x[i]["path"],
                         autoplay: false,
-                        container: Player.container(i)
+                        container: Player.container(i),
+                        rendererSettings: {
+                            progressiveLoad: true,
+                            preserveAspectRatio: 'xMidYMid slice',
+                            filterSize: {
+                                width: '200%',
+                                height: '200%',
+                                x: '-50%',
+                                y: '-50%',
+                            }
+                        }
                     }),
                 play: function ()
                 {
                     this.anima.play();
                     this.sound.play();
+                },
+                speed: function (amount)
+                {
+                    this.anima.setSpeed(amount);
+                    this.sound.rate(amount);
+                },
+                stop: function ()
+                {
+                    this.anima.stop();
+                    this.sound.stop();
                 }
             }
     }
     console.log(motion);
 });
+
