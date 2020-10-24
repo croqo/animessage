@@ -1,6 +1,10 @@
 body {
     overflow: hidden;
 }
+.z-hide {
+    z-index: -1!important;
+    opacity: 0!important;
+}
 .surface {
     position: absolute;
     overflow: visible;
@@ -8,26 +12,27 @@ body {
     height: 100vh;
     left: 0;
     top: 0;
-
     z-index: 1;
+    transition: all 0.5s ease-out;
 }
 .glass {
     z-index: 2;
     background: white;
-    opacity: 0.5;
+    opacity: 0.67;
+    mix-blend-mode: lighten;
 }
-.anchor {
-    position: absolute;
-    z-index: -1;
-    top: 50vh;
-    left: 50vw;
-    overflow: hidden;
-}
-.box {
+.inbox {
     position: absolute;
     left: 20vw;
-    top: 30vh;
+    top: 25vh;
     width: 60vw;
     height: 40vh;
     z-index: 5;
+    opacity: 0.99;
+    transition: all 0.8s ease-out;
+}
+.message {
+    position: absolute;
+    top: 30vh;
+    z-index: 20;
 }
