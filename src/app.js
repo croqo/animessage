@@ -22,10 +22,10 @@ Object.assign(
         $: jquery,
         lottie: lottie,
         Howl:   Howl,
-        xQ: new Query(),
         xP: {}
     });
-window.x = new Proxy({}, {
+globalThis.Q = Query;
+globalThis.x = new Proxy({}, {
     get: function(object, property) {
         return object.hasOwnProperty(property) ? object[property] : {};
     }
@@ -34,7 +34,7 @@ window.x = new Proxy({}, {
 // Event handlers
 $(document).on("query", function ()
 {
-    xQ.get().then(function (res)
+    Q.get().then(function (res)
     {
         for (let i in res)
         {
@@ -43,7 +43,7 @@ $(document).on("query", function ()
                     ...x[i],
                     ...res[i]
                 };
-                x[i]["player"] = Player.get(x[i]);
+            x[i]["player"] = Player.get(x[i]);
         }
     });
 });

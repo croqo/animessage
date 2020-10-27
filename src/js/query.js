@@ -18,9 +18,10 @@ export default class Query extends URL
         let href = window.location.href;
         super(href);
     }
-    async get()
+    static async get()
     {
-        return this.query
+        let q = new Query();
+        return q.query;
     }
     get query()
     {
