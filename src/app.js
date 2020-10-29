@@ -1,116 +1,77 @@
-import jquery from 'jquery';
-import lottie from 'lottie-web';
-import {Howl} from 'howler'
-import Player, {player, PlayerConfig} from "./js/player";
-import $ from "jquery";
-import Query from "./js/query";
 import "./style.css";
+import jquery from 'jquery';
+globalThis.jQuery
+    = globalThis.$ = jquery;
+import {Howl} from 'howler'
+globalThis.Howl = Howl;
+import lottie from 'lottie-web';
+globalThis.lottie = lottie;
 
+import Query from "./js/query";
+const appName = "animal"
 
-// let Type = Enum.define("Type",
-//         {
-//             constants:
-//                 {
-//                     raw: {},
-//                     message: {"text": "text" },
-//                     lottie: lottie
-//                 }
-//         }
-//     );
-Object.assign(
-    window,{
-        $: jquery,
-        lottie: lottie,
-        Howl:   Howl,
-        xP: {}
-    });
-globalThis.Q = Query;
-globalThis.x = new Proxy({}, {
-    get: function(object, property) {
-        return object.hasOwnProperty(property) ? object[property] : {};
-    }
-});
-
-// Event handlers
-$(document).on("query", function ()
-{
-    Q.get().then(function (res)
-    {
-        for (let i in res)
-        {
-            x[i] =
-                {
-                    ...x[i],
-                    ...res[i]
-                };
-            x[i]["player"] = Player.get(x[i]);
-        }
-    });
-});
-$(document).trigger("query");
-$(document).ready(function () {
-    window.motion = {}
-    for (let i in x) {
-        let d = x[i];
-        d.container = Player.container(i);
-        d.delay = ("delay" in d) ? d.delay : 100;
-        d.speed = ("speed" in d) ? d.speed : 1.0;
-        // noinspection CommaExpressionJS
-        motion[i] =
+let app = globalThis[appName] = {
+    setup: {},
+    html: $(`<div id="${appName}"></div>`),
+    query: new Query(),
+    getQuery: function (){
+        app.query.searchParams.forEach(
+            function (value, key)
             {
-                sound: new Howl({
-                    src: [(d.audio)]
-                }),
-                anima: lottie.loadAnimation(
-                    {
-                        path: d.path,
-                        autoplay: false,
-                        container: d.container,
-                        rendererSettings: {
-                            progressiveLoad: true,
-                            preserveAspectRatio: 'xMidYMid slice',
-                            filterSize: {
-                                width: '200%',
-                                height: '200%',
-                                x: '-50%',
-                                y: '-50%',
-                            }
-                        }
-                    }),
-                play: function () {
-                    this.anima.play();
-                    this.sound.play();
-                },
-                speed: function (amount) {
-                    this.anima.setSpeed(amount);
-                    this.sound.rate(amount);
-                },
-                stop: function () {
-                    this.anima.stop();
-                    this.sound.stop();
-                },
-                start: function () {
-                    this.speed(d.speed);
-                    setTimeout(()=>
-                    {
-                        this.z();
-                        this.play();
-                    }, d.delay);
-                },
-                z: function ()
-                {
-                    $(d.container).toggleClass("z-hide");
-                }
-            };
-        }
-    $(document).trigger("start");
-});
-$(document).on("start", function ()
-{
-    for (let i in window.motion) {
+                let
+                    i = Query.split(key),
+                    id = i[0], prop = i[1];
 
-        let p = window.motion[i];
-        p.start();
+                app.setup[id] = (id in app.setup)
+                    ? app.setup[id]
+                    : {["name"]:id}
+                ;
+
+                if (typeof id === "undefined") { id = "default" }
+                let v = {[prop]: value};
+                app.setup[id] = {...app.setup[id], ...v};
+            });
+        return {...app.setup};
     }
+};
+
+let defQuery = $.Deferred();
+defQuery.resolve(app.getQuery());
+$(document).ready(function () {
+    app.html.appendTo("body");
+    defQuery.done(function (query){
+        Object.keys(query).forEach(function (i){
+            let option = query[i];
+            let html = $("<figure></figure>");
+            Object.keys(option).forEach(function (prop){
+                console.log(option[prop]);
+                html.data(prop, option[prop]);
+            });
+            app.html.append(html);
+        })
+    }).done(function (){
+        $.each($(`#${appName} figure`), function (){
+            let audio = $(this).data("audio");
+            let motion = lottie.loadAnimation({
+                container: this,
+                name: $(this).data("name"),
+                path: $(this).data("path"),
+                loop: (!!$(this).data("loop")),
+                autoplay: false,
+                renderer: "svg",
+                audioFactory: new Howl({
+                    src:[audio]
+                })
+            });
+            motion.setSpeed($(this).data("speed") || 1.0);
+            motion.delay = $(this).data("delay");
+            motion.start = function (){
+                setTimeout(function (){
+                    motion.play()
+                },)
+            }
+            console.log(motion);
+        });
+    });
 });
 

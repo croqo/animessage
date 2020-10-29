@@ -18,29 +18,37 @@ export default class Query extends URL
         let href = window.location.href;
         super(href);
     }
-    static async get()
+    static get()
     {
         let q = new Query();
         return q.query;
+        // let Q = $.Deferred();
+        // $.when(Q.resolve(q.query))
+        //     .done(function (result){
+        //         return result  });
+    }
+    data(){
+        this.searchParams.forEach(function (value, key){
+            return [key, value]
+        })
     }
     get query()
     {
         let result = {};
         this.searchParams.forEach(
-            function (value, key, parent)
+            function (value, key)
             {
-                let i = Query.split(key);
-                let id = i[0];
-                let prop = i[1];
-                let v = {["name"]:id};
+                let
+                    i = Query.split(key),
+                    id = i[0], prop = i[1];
 
                 result[id] = (id in result)
                     ? result[id]
-                    : v
+                    : {["name"]:id}
                 ;
 
                 if (typeof id === "undefined") { id = "default" }
-                v = {[prop]: value};
+                let v = {[prop]: value};
                 result[id] = {...result[id], ...v};
             });
         return {...result};

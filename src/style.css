@@ -15,7 +15,8 @@ body {
     z-index: 1;
     transition: all 0.5s ease-out;
 }
-.glass {
+.surface::after {
+    content: '';
     z-index: 2;
     background: white;
     opacity: 0.67;
