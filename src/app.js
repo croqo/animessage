@@ -12,7 +12,8 @@ const appName = "animal"
 
 let app = globalThis[appName] = {
     setup: {},
-    html: $(`<div id="${appName}"></div>`),
+    x: {},
+    html: $(`<div id="${appName}" style="position: absolute; width: 100vw; height: 100vh; top: 0; left: 0"></div>`),
     query: new Query(),
     getQuery: function (){
         app.query.searchParams.forEach(
@@ -36,42 +37,103 @@ let app = globalThis[appName] = {
 };
 
 let defQuery = $.Deferred();
+
 defQuery.resolve(app.getQuery());
 $(document).ready(function () {
-    app.html.appendTo("body");
+    app.html.prependTo("body");
     defQuery.done(function (query){
         Object.keys(query).forEach(function (i){
-            let option = query[i];
-            let html = $("<figure></figure>");
+            let
+                option = query[i],
+                html = $(`<figure id="${option.name}" class="${option.type}"></figure>`);
+            let defJson = $.Deferred();
+            $.when(
+
+            )
             Object.keys(option).forEach(function (prop){
-                console.log(option[prop]);
-                html.data(prop, option[prop]);
+                switch (prop) {
+                    // case "path":
+                    //     option.animationData = getJson(option.path);
+                    //     defJson.resolve(option.animationData);
+                    //
+                    //     html.data(prop, option[prop]);
+                    //     break;
+                    default:
+                        html.data(prop, option[prop]);
+                        defJson.resolve();
+                        break;
+                }
             });
             app.html.append(html);
+            console.log(app);
         })
     }).done(function (){
-        $.each($(`#${appName} figure`), function (){
-            let audio = $(this).data("audio");
-            let motion = lottie.loadAnimation({
-                container: this,
-                name: $(this).data("name"),
-                path: $(this).data("path"),
-                loop: (!!$(this).data("loop")),
-                autoplay: false,
-                renderer: "svg",
-                audioFactory: new Howl({
-                    src:[audio]
-                })
+        Object.keys(app.setup).forEach(function (i){
+            let $this = app.setup[i],
+                defContainer = $.Deferred(),
+                defJson = $.Deferred();
+            app.x[i] = $this;
+
+            Object.keys($this).forEach(function (prop){
+                let $it = $this[prop];
+                app.x[i][prop] = $it;
+
+                switch (prop){
+                    case "path":
+                        $this.container = $(`#${appName} figure#${i}`).get(0);
+                        $this.path = $it;
+                        // app.x[i].animationData = defJson.promise();
+                        defContainer.resolve();
+                        console.log(app.x);
+                }
+                defJson.resolve(
+                    app.x[i].animationData = $.getJSON($it,
+                        function (json){
+                        }))
             });
-            motion.setSpeed($(this).data("speed") || 1.0);
-            motion.delay = $(this).data("delay");
-            motion.start = function (){
+            $.when(
+                defContainer,
+                defJson.done()
+            ).then(function (){
+                console.log($this);
+                app.x[i] = lottie.loadAnimation({
+                    path: $this.path,
+                    container: $this.container,
+                    loop: !($this.loop==="no"),
+                    autoplay: false,
+                    rendererSettings: {
+                        progressiveLoad: true,
+                        preserveAspectRatio: 'xMidYMid slice'
+                    }
+                });
+
+            }).then(function (){
                 setTimeout(function (){
-                    motion.play()
-                },)
-            }
-            console.log(motion);
+                    app.x[i].setSpeed($this.speed || 1.0);
+                    app.x[i].play();
+                }, $this.delay || 0)
+            })
+        })
+    }).done(function (){
+        let animationData;
+        Object.keys(app.setup).forEach(function (i){
+            let $this = app.setup[i];
+            console.log($this);
+
         });
     });
 });
+function getJson(path){
+    // get JSON if found
+    if (new RegExp(/\w.json$/).test(path)===true)
+    {
+        $.getJSON(path,
+            function (json){
+            }).done(function (json){
+                console.log(json)
+            return json
+        });
+    }
+
+}
 
