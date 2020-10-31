@@ -45,19 +45,13 @@ $(document).ready(function () {
         Object.keys(query).forEach(function (i){
             let
                 option = query[i],
-                html = $(`<figure id="${option.name}" class="${option.type}"></figure>`);
+                html = $(`<figure id="${option.name}" class="${option.type} z-hide"></figure>`);
             let defJson = $.Deferred();
             $.when(
 
             )
             Object.keys(option).forEach(function (prop){
                 switch (prop) {
-                    // case "path":
-                    //     option.animationData = getJson(option.path);
-                    //     defJson.resolve(option.animationData);
-                    //
-                    //     html.data(prop, option[prop]);
-                    //     break;
                     default:
                         html.data(prop, option[prop]);
                         defJson.resolve();
@@ -71,7 +65,8 @@ $(document).ready(function () {
         Object.keys(app.setup).forEach(function (i){
             let $this = app.setup[i],
                 defContainer = $.Deferred(),
-                defJson = $.Deferred();
+                defJson = $.Deferred(),
+                defAudio = $.Deferred();
             app.x[i] = $this;
 
             Object.keys($this).forEach(function (prop){
@@ -84,18 +79,31 @@ $(document).ready(function () {
                         $this.path = $it;
                         // app.x[i].animationData = defJson.promise();
                         defContainer.resolve();
-                        console.log(app.x);
+                        break;
+                    case "text":
+                        $($this.container).append(
+                            $(`<p class="message">${$it}</p>`)
+                        )
                 }
+                console.log(app.x);
+                defAudio.resolve(
+                    $this.audioFactory = new Howl({
+                        src: [$this["audio"] || ""]
+                    })
+                );
+
                 defJson.resolve(
-                    app.x[i].animationData = $.getJSON($it,
+                    $this.animationData = $.getJSON($it,
                         function (json){
                         }))
             });
             $.when(
                 defContainer,
-                defJson.done()
+                defJson.done(),
+                defAudio.done()
             ).then(function (){
                 console.log($this);
+
                 app.x[i] = lottie.loadAnimation({
                     path: $this.path,
                     container: $this.container,
@@ -108,32 +116,27 @@ $(document).ready(function () {
                 });
 
             }).then(function (){
+
                 setTimeout(function (){
+                    zFlip($($this.container).get(0));
+                    $this.audioFactory.play();
                     app.x[i].setSpeed($this.speed || 1.0);
                     app.x[i].play();
-                }, $this.delay || 0)
+                    if (app.x[i].sound) app.x[i].sound.play();
+                }, $this.delay || 0);
+                $this.length = $this.length || 8000;
+                setTimeout(function (){
+                    zFlip($($this.container).get(0));
+                    setTimeout(function (){
+                        $this.audioFactory.stop();
+                        app.x[i].stop();
+                    },500)
+                }, $this.length)
             })
         })
-    }).done(function (){
-        let animationData;
-        Object.keys(app.setup).forEach(function (i){
-            let $this = app.setup[i];
-            console.log($this);
-
-        });
-    });
+    })
 });
-function getJson(path){
-    // get JSON if found
-    if (new RegExp(/\w.json$/).test(path)===true)
-    {
-        $.getJSON(path,
-            function (json){
-            }).done(function (json){
-                console.log(json)
-            return json
-        });
-    }
-
+function zFlip(element){
+    $(element).toggleClass("z-hide");
 }
 
