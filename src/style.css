@@ -6,21 +6,27 @@ body {
     opacity: 0!important;
 }
 .surface {
-    position: relative;
-    overflow: visible;
-    min-width: 100vw;
+    position: absolute;
+    overflow: hidden;
     height: 100vh;
-    left: 0;
+    width: 100vw;
     top: 0;
+    left: 0;
     z-index: 1;
     opacity: 1;
     transition: all 0.5s ease-out;
 }
-.surface::after {
-    content: '';
+.surface:before {
+    content: " ";
+    position: absolute;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+    top: 0;
+    left: 0;
     z-index: 2;
     background: white;
-    opacity: 0.67;
+    opacity: 0.5;
     mix-blend-mode: lighten;
 }
 .inbox {

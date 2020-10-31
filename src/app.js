@@ -117,20 +117,21 @@ $(document).ready(function () {
 
             }).then(function (){
 
+                $this.delay = $this.delay || 0;
                 setTimeout(function (){
                     zFlip($($this.container).get(0));
                     $this.audioFactory.play();
                     app.x[i].setSpeed($this.speed || 1.0);
                     app.x[i].play();
                     if (app.x[i].sound) app.x[i].sound.play();
-                }, $this.delay || 0);
+                }, $this.delay);
                 $this.length = $this.length || 8000;
                 setTimeout(function (){
                     zFlip($($this.container).get(0));
                     setTimeout(function (){
                         $this.audioFactory.stop();
                         app.x[i].stop();
-                    },500)
+                    },300)
                 }, $this.length)
             })
         })
