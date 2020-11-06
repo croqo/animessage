@@ -1,15 +1,32 @@
 {
-  "foreground": {
-    "type": "inbox",
-    "path": "https://assets6.lottiefiles.com/packages/lf20_yha2dfy4.json",
-    "delay": 4000,
-    "text": "Your+device+turns+into+a+pumpkin",
-    "length": 18000
+  "N4KA": {
+    "foreground": {
+      "type": "inbox",
+      "path": "https://assets6.lottiefiles.com/packages/lf20_yha2dfy4.json",
+      "delay": 4000,
+      "text": "Your+device+turns+into+a+pumpkin",
+      "length": 18000
+    },
+    "background": {
+      "type": "surface",
+      "path": "https%3A%2F%2Fassets4.lottiefiles.com%2Fprivate_files%2Flf30_ugu0odns.json",
+      "audio": "https://croqo.xyz/storage/app/media/dayte-tank-utro.mp3",
+      "length": 19000
+    }
   },
-  "background": {
-    "type": "surface",
-    "path": "https%3A%2F%2Fassets4.lottiefiles.com%2Fprivate_files%2Flf30_ugu0odns.json",
-    "audio": "https://croqo.xyz/storage/app/media/dayte-tank-utro.mp3",
-    "length": 19000
+  "SNLH": {
+    "foreground": {
+      "type": "inbox",
+      "path": "https://assets6.lottiefiles.com/packages/lf20_yha2dfy4.json",
+      "delay": 4000,
+      "text": "Your+device+turns+into+a+pumpkin",
+      "length": 18000
+    },
+    "background": {
+      "type": "surface",
+      "path": "https%3A%2F%2Fassets4.lottiefiles.com%2Fprivate_files%2Flf30_ugu0odns.json",
+      "audio": "https://croqo.xyz/storage/app/media/dayte-tank-utro.mp3",
+      "length": 19000
+    }
   }
 }
