@@ -59,7 +59,7 @@ $(document).ready(function () {
                 }
             });
             app.html.append(html);
-            console.log(app);
+            // console.log(app);
         })
     }).done(function (){
         Object.keys(app.setup).forEach(function (i){
@@ -85,7 +85,7 @@ $(document).ready(function () {
                             $(`<p class="message">${$it}</p>`)
                         )
                 }
-                console.log(app.x);
+                // console.log(app.x);
                 defAudio.resolve(
                     $this.audioFactory = new Howl({
                         src: [$this["audio"] || ""]
@@ -102,7 +102,7 @@ $(document).ready(function () {
                 defJson.done(),
                 defAudio.done()
             ).then(function (){
-                console.log($this);
+                // console.log($this);
 
                 app.x[i] = lottie.loadAnimation({
                     path: $this.path,
@@ -111,7 +111,10 @@ $(document).ready(function () {
                     autoplay: false,
                     rendererSettings: {
                         progressiveLoad: true,
-                        preserveAspectRatio: 'xMidYMid slice'
+                        preserveAspectRatio:
+                            (!!$this["scaling"])
+                                ? "xMidYMid slice"
+                                : "xMidYMid meet"
                     }
                 });
 
@@ -134,7 +137,8 @@ $(document).ready(function () {
                     },300)
                 }, $this.length)
             })
-        })
+        });
+        console.log(app);
     })
 });
 function zFlip(element){
