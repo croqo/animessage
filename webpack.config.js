@@ -1,4 +1,5 @@
 const path = require('path');
+const JSON5 = require('json5-loader')
 const webpack = require('webpack');
 const TerserPlugin = require('terser-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
