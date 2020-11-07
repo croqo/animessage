@@ -1,17 +1,14 @@
 {
-  "name": "animessage.js",
-  "version": "0.5.2",
-  "description": "Based on lottie-web lib",
-  "main": "index.js",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/croqo/lottie-factory.git"
+  "author": "croqo",
+  "bugs": {
+    "url": "https://github.com/croqo/lottie-factory/issues"
   },
   "dependencies": {
     "howler": "^2.2.0",
     "jquery": "^3.5.1",
     "lottie-web": "^5.6.10"
   },
+  "description": "Based on lottie-web lib",
   "devDependencies": {
     "clean-webpack-plugin": "^3.0.0",
     "compression-webpack-plugin": "^6.0.5",
@@ -19,31 +16,32 @@
     "css-loader": "^4.3.0",
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
     "file-loader": "^6.1.0",
-    "json5": "^2.1.3",
     "json5-loader": "^4.0.1",
-    "mini-css-extract-plugin": "^0.11.2",
     "resolve-cwd": "^3.0.0",
     "sass": "^1.29.0",
     "sass-loader": "^10.0.5",
     "style-loader": "^1.2.1",
-    "url-loader": "^4.1.0",
     "webpack": "^5.4.0",
+    "url-loader": "^4.1.0",
     "webpack-cli": "^4.2.0"
   },
-  "bugs": {
-    "url": "https://github.com/croqo/lottie-factory/issues"
-  },
   "homepage": "https://github.com/croqo/lottie-factory#readme",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack",
-    "dev": "npx webpack --watch"
-  },
   "keywords": [
     "lottie",
     "web",
     "constructor"
   ],
-  "author": "croqo",
-  "license": "ISC"
+  "license": "ISC",
+  "main": "index.js",
+  "name": "animessage.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/croqo/lottie-factory.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack",
+    "dev": "echo \"webpack: build started\" && npx webpack --watch"
+  },
+  "version": "0.5.2"
 }
