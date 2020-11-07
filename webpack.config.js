@@ -4,43 +4,42 @@ const webpack = require('webpack');
 const TerserPlugin = require('terser-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 
-
-module.exports = {
+let config = {
   mode: 'development',
-
+  // mode: 'production',
   entry: {
-    app : { import: './src/app.js', dependOn: 'lib'},
-    lib : ['./src/lib.js', './src/style.sass']
+    app : ['./src/app.js'],
+    base: ['./src/base.js']
   },
   output: {
-    path: path.resolve(__dirname, 'www/inc')
+    path: path.resolve(__dirname,'animessage/inc')
   },
   plugins: [
     new CleanWebpackPlugin(),
-    new BundleAnalyzerPlugin(),
-    new webpack.ProgressPlugin(),
-    new MiniCssExtractPlugin({
-      filename: '[name].css'
+    new webpack.ProgressPlugin({
+      percentBy: 'entries'
     })
   ],
 
   module: {
-    rules: [{
-      test: /\.(js|jsx)$/,
-      include: [path.resolve(__dirname, 'src')],
-      loader: 'babel-loader'
-    },
-    {
-      test: /\.(sa|sc|c)ss$/,
-      use: [
-        MiniCssExtractPlugin.loader,
-        'css-loader',
-        'sass-loader'
-      ],
-    }]
+    rules: [
+      {
+        test: /\.(sa|sc|c)ss$/,
+        use: [
+          { loader: 'style-loader', options: { injectType: 'styleTag' } },
+          'css-loader',
+          'sass-loader'
+        ]
+      },
+      {
+        test: /\.json$/,
+        loader: 'json5-loader',
+        type: 'javascript/auto'
+      }
+    ]
   },
 
   watchOptions: {
@@ -49,15 +48,9 @@ module.exports = {
   },
 
   optimization: {
-    minimizer: [new TerserPlugin()],
-    splitChunks: {
-      cacheGroups: {
-        commons: {
-          test: /[\\/]node_modules[\\/]/,
-          name: 'lib',
-          chunks: 'async'
-        }
-      }
-    }
+    minimizer: [new TerserPlugin()]
   }
 }
+
+module.exports = config;
+
