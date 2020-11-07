@@ -18,7 +18,6 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'www/inc')
   },
-
   plugins: [
     new CleanWebpackPlugin(),
     new BundleAnalyzerPlugin(),
@@ -44,6 +43,10 @@ module.exports = {
     }]
   },
 
+  watchOptions: {
+    aggregateTimeout: 200,
+    poll: 1000
+  },
 
   optimization: {
     minimizer: [new TerserPlugin()],
