@@ -29,14 +29,37 @@ defBase.resolve(app.base);
 defBase.done(function (){
     let code = getCode(app.query.search);
     if (!!(app.base[code])){
-       return defQuery.resolve(code);
+       return defQuery.resolve(app.base[code]);
     }
 });
-defQuery.done(function (code){
-    console.log(app.base[code]);
-
-    let html = getHtml(app.base[code]);
-})
+defQuery.done(function (data){
+    Object.keys(data).forEach(function (value){
+        let it = data[value];
+        app.x[value] = (value in app.x) ? [...app.x[value], ...it] : it;
+    });
+}).then(function (){
+    $.when(
+        $(app.html).appendTo("body")
+    ).then(function (){
+        Object.keys(app.x).forEach(function (key){
+            let it = app.x[key],
+                html = $(`<figure class="lottie-player ${it['type'] || ''}"></figure>`).appendTo(`#${appName}`);
+            Object.keys(it).forEach(function (prop){
+                switch (prop){
+                    case 'path': {
+                        JSON.stringify($.getJSON(it.path).done(function (data){
+                            console.log(data)
+                            it['animationData'] = data;
+                        }));
+                        break;
+                    }
+                    default: $(html).attr(`data-${prop}`, it[prop])
+                }
+            })
+        })
+    });
+    console.log(app)
+});
 
 function getCode(search){
     let s = search.toString();
@@ -46,10 +69,9 @@ function getHtml(obj){
     Object.keys(obj).forEach(function (code){
         let
             option = obj[code],
-            html = $(
-                `<figure id="${option.name}" class="${option.type} z-hide"></figure>`
-            );
+            html = $(`<figure id="${option.name}" class="${option.type} z-hide"></figure>`);
         Object.keys(option).forEach(function (prop){
+            console.log(prop);
             html.data("prop", option[prop])
         });
         return html;
