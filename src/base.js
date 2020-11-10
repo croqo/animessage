@@ -27,14 +27,14 @@ let
 ;
 defBase.resolve(app.base);
 defBase.done(function (){
-    let code = getCode(app.query.search);
+    let code = getCode();
     if (!!(app.base[code])){
        return defQuery.resolve(app.base[code]);
     }
 });
 defQuery.done(function (data){
     Object.keys(data).forEach(function (value){
-        let it = data[value];
+        let it = data[value]; it.name = value;
         app.x[value] = (value in app.x) ? [...app.x[value], ...it] : it;
     });
 }).then(function (){
@@ -43,7 +43,8 @@ defQuery.done(function (data){
     ).then(function (){
         Object.keys(app.x).forEach(function (key){
             let it = app.x[key],
-                html = $(`<figure class="lottie-player ${it['type'] || ''}"></figure>`).appendTo(`#${appName}`);
+                html = $(`<figure id="#${appName}-${it.name}" class="lottie-player ${it['type'] || ''}"></figure>`).appendTo(`#${appName}`)
+            ;
             Object.keys(it).forEach(function (prop){
                 switch (prop){
                     case 'path': {
@@ -57,25 +58,34 @@ defQuery.done(function (data){
                 }
             })
         })
+    }).done(()=>{
+        defHtml.resolve($(`#${appName}`))
     });
     console.log(app)
 });
-
+defHtml.done((html)=>{
+    defReady.resolve(
+        $.each($(html).find("figure"), function (){
+            const
+                id = ($(this).attr("id")).slice(appName.length+2),
+                player = app.x[id]
+            ;
+            app.x[id] = lottie.loadAnimation({
+                container: this,
+                animationData: getAnimationData(player.lottie),
+                autoplay: true,
+                loop: true
+            });
+            console.log(app.x[id]);
+        })
+    )
+});
+defReady.done(()=>{
+    console.log(app);
+})
 function getCode(search){
-    let s = search.toString();
+    let s = app.query.search.toString();
     return s.slice(1);
-}
-function getHtml(obj){
-    Object.keys(obj).forEach(function (code){
-        let
-            option = obj[code],
-            html = $(`<figure id="${option.name}" class="${option.type} z-hide"></figure>`);
-        Object.keys(option).forEach(function (prop){
-            console.log(prop);
-            html.data("prop", option[prop])
-        });
-        return html;
-    })
 }
 function getAnimationData(fileName){
     return animationData[fileName]
