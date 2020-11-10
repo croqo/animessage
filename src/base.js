@@ -93,34 +93,21 @@ $.when(
     );
 })
 defReady.done(()=>{
-    $.when(
-        $.each(app.x, (id, data)=>{
-            const i = setInterval(()=>{
-                if (data.ready.state()==="resolved"){
-                    clearInterval(i)
-                } else {
-                    console.log(`${id} state: ${data.ready.state()}`)
-                }
-            }, 100)
-        })
-    ).then(()=>{
-        $.each(app.x, (id, data)=>{
-            const
-                config = app.data[id];
+    $.each(app.x, (id, data)=>{
+        const
+            config = app.data[id];
 
+        setTimeout(()=>{
+            $(config.container).append($(config.message));
+            zFlip(config.container);
+            if (!!data.audio) data.audio.play();
+            data.lottie.play();
             setTimeout(()=>{
-                if (!!data.message) $(config.container)
-                    .append($(config.message));
-                if (!!data.audio) data.audio.play();
-                data.lottie.play();
+                if (!!data.audio) data.audio.stop();
+                data.lottie.stop();
                 zFlip(config.container);
-                setTimeout(()=>{
-                    if (!!data.audio) data.audio.stop();
-                    data.lottie.stop();
-                    zFlip(config.container);
-                }, (!!config.length) ?config.length :8000)
-            }, (!!config.delay) ?config.delay :100)
-        })
+            }, (!!config.length) ?config.length :8000)
+        }, (!!config.delay) ?config.delay :0)
     })
 })
 function getId(figure){
