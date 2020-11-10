@@ -37,7 +37,7 @@ defBase.done(base =>{
         Object.keys(app.data).forEach(function (key){
             let it = app.data[key],
                 id = `${appName}-${key}`,
-                type = "lottie-player"+((!!it.type) ?` ${it.type}` :"")
+                type = "lottie-player"+((!!it.type) ?` ${it.type}` :"")+" z-hide"
             ;
             if (!!it.audio) {
                 it.audioData = new Howl({
@@ -45,15 +45,13 @@ defBase.done(base =>{
                 })
             }
             if (!!it.lottie) it.animationData = getAnimationData(it.lottie);
+            it.message = (!!it.text) ?`<div class="message box"><p>${it.text}</p></div>` :"";
 
             $.when(
-                $(`<figure id="#${id}" class="${type}"></figure>`).appendTo(`#${appName}`)
+                it.html = $(`<figure id="#${id}" class="${type}"></figure>`).appendTo(`#${appName}`)
             ).then(()=>{
                 app.data[key]=it;
             })
-            // Object.keys(it).forEach(function (prop){
-            //     $(html).attr(`data-${prop}`, it[prop])
-            // })
         })
     }).done(()=>{
         let res = $(`#${appName}`);
@@ -71,40 +69,59 @@ $.when(
     defReady.resolve(
         $.each(app.data, function (id, config){
             const
-                x = app.x[id] = getLottie(config),
-                y = config.audioData || false,
-                z = $.Deferred()
-            ;
-            if (!!y) {
-                setInterval(()=>{
-                    if (y.state() === "loaded") {
-                        clearInterval(z);
-                        z.resolve(y);
-                    } else {
-                        console.log(y.state())
-                    }
-
-                },200)}
-            else {
-                z.resolve(false)
-            }
-            z.done((y)=>{
-                setTimeout(()=>{
-                    x.play();
-                    if (y) y.play();
-                    setTimeout(()=>{
-                        x.stop();
-                        if (y) y.stop();
-                    }, (!!config.length) ?config.length :8000)
-                }, (!!config.delay) ?config.delay :0)
-            })
-            // audio.play();
-
+                player = {
+                    lottie: getLottie(config),
+                    message: config.text || false,
+                    audio: config.audioData || false,
+                    ready: $.Deferred()
+                };
+            player.ready.resolve(function (){
+                if (!!player.audio) {
+                    const
+                        a = player.audio,
+                        i = setInterval(()=>{
+                                if (a.state() === "loaded") {
+                                    clearInterval(i);
+                                } else {
+                                    console.log(a.state())
+                                }
+                            },200);
+                }
+            });
+            app.x[id] = player
         })
     );
 })
 defReady.done(()=>{
-    console.log(app);
+    $.when(
+        $.each(app.x, (id, data)=>{
+            const i = setInterval(()=>{
+                if (data.ready.state()==="resolved"){
+                    clearInterval(i)
+                } else {
+                    console.log(`${id} state: ${data.ready.state()}`)
+                }
+            }, 100)
+        })
+    ).then(()=>{
+        $.each(app.x, (id, data)=>{
+            const
+                config = app.data[id];
+
+            setTimeout(()=>{
+                if (!!data.message) $(config.container)
+                    .append($(config.message));
+                if (!!data.audio) data.audio.play();
+                data.lottie.play();
+                zFlip(config.container);
+                setTimeout(()=>{
+                    if (!!data.audio) data.audio.stop();
+                    data.lottie.stop();
+                    zFlip(config.container);
+                }, (!!config.length) ?config.length :8000)
+            }, (!!config.delay) ?config.delay :100)
+        })
+    })
 })
 function getId(figure){
     let
@@ -126,12 +143,6 @@ function getLottie(config){
     config.autoplay = config.autoplay || false;
     return lottie.loadAnimation(config)
 }
-function getAudio(path){
-    const res = $.Deferred();
-    return res.resolve(new Howl({
-        src: [path]
-    }))
-}
-function start(data){
-
+function zFlip(element){
+    $(element).toggleClass("z-hide");
 }

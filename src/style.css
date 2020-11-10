@@ -42,7 +42,7 @@ body {
 .message {
     position: relative;
     width: 100%;
-    top: 50vh;
+    top: 5vh;
     padding: 2vw;
     z-index: 20;
     font-size: 18pt;
