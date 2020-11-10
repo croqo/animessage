@@ -89,8 +89,14 @@ $.when(
                 z.resolve(false)
             }
             z.done((y)=>{
-                x.play();
-                if (y) y.play()
+                setTimeout(()=>{
+                    x.play();
+                    if (y) y.play();
+                    setTimeout(()=>{
+                        x.stop();
+                        if (y) y.stop();
+                    }, (!!config.length) ?config.length :8000)
+                }, (!!config.delay) ?config.delay :0)
             })
             // audio.play();
 
