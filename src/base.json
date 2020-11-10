@@ -1,0 +1,17 @@
+{
+  "N4KA": {
+    "foreground": {
+      "lottie": "002.ghost-message.json",
+      "type": "inbox",
+      "delay": 4000,
+      "text": "Ghost family is greeting you",
+      "length": 13000
+    },
+    "background": {
+      "lottie": "001.ghost-family.json",
+      "type": "surface",
+      "audio": "https://croqo.xyz/storage/app/media/dayte-tank-utro.mp3",
+      "length": 18000
+    }
+  }
+}
