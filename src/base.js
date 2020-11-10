@@ -3,7 +3,6 @@ import jquery from 'jquery';
 globalThis.jQuery
     = globalThis.$ = jquery;
 import {Howl} from 'howler'
-globalThis.Howl = Howl;
 import lottie from 'lottie-web';
 globalThis.lottie = lottie;
 
@@ -37,35 +36,59 @@ defBase.done(base =>{
     ).then(function (){
         Object.keys(app.data).forEach(function (key){
             let it = app.data[key],
-                html = $(`<figure id="#${appName}-${key}" class="lottie-player ${it['type'] || ''}"></figure>`).appendTo(`#${appName}`)
+                id = `${appName}-${key}`,
+                type = "lottie-player"+((!!it.type) ?` ${it.type}` :"")
             ;
-            Object.keys(it).forEach(function (prop){
-                $(html).attr(`data-${prop}`, it[prop])
+            if (!!it.audio) {
+                it.audioData = new Howl({
+                    src: [it.audio]
+                })
+            }
+            if (!!it.lottie) it.animationData = getAnimationData(it.lottie);
+
+            $.when(
+                $(`<figure id="#${id}" class="${type}"></figure>`).appendTo(`#${appName}`)
+            ).then(()=>{
+                app.data[key]=it;
             })
+            // Object.keys(it).forEach(function (prop){
+            //     $(html).attr(`data-${prop}`, it[prop])
+            // })
         })
     }).done(()=>{
         let res = $(`#${appName}`);
         return defHtml.resolve(res)
     });
 });
-defHtml.done((html)=>{
-    $.each($(html).find("figure"), function (){
-        const
-            id = getId(this),
-            player = app.data[id]
-        ;
-        app.x[id] = lottie.loadAnimation({
-            container: this,
-            animationData: getAnimationData(player.lottie),
-            autoplay: true,
-            loop: true
-        });
-        console.log(app.x[id]);
+$.when(
+    defHtml.done((html)=>{
+        $.each($(html).find("figure"), function (){
+            const id = getId(this);
+            app.data[id].container = this;
+        })
     })
-
+).then(()=>{
     defReady.resolve(
-    )
-});
+        $.each(app.data, function (id, config){
+            const
+                x = app.x[id] = getLottie(config),
+                y = config.audioData || false,
+                z = (!!y) ? setInterval(
+                ()=>{
+                    if (y.state()==="loaded") {
+                        console.log(y);
+                        clearInterval(z)
+                        x.play();
+                        y.play()
+                    }
+                    console.log(y.state());
+                }, 200) : false
+            ;
+            // audio.play();
+
+        })
+    );
+})
 defReady.done(()=>{
     console.log(app);
 })
@@ -84,4 +107,17 @@ function getBase(code){
 }
 function getAnimationData(fileName){
     return animationData[fileName]
+}
+function getLottie(config){
+    config.autoplay = config.autoplay || false;
+    return lottie.loadAnimation(config)
+}
+function getAudio(path){
+    const res = $.Deferred();
+    return res.resolve(new Howl({
+        src: [path]
+    }))
+}
+function start(data){
+
 }
