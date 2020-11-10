@@ -8,7 +8,7 @@ import lottie from 'lottie-web';
 globalThis.lottie = lottie;
 
 import Base from './base.json';
-
+import animationData from './_lottie.json';
 
 import Query from "./js/query";
 const appName = "animal"
@@ -76,4 +76,7 @@ function getHtml(obj){
         });
         return html;
     })
+}
+function getAnimationData(fileName){
+    return animationData[fileName]
 }
