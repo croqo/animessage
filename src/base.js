@@ -25,11 +25,15 @@ let
     defHtml = $.Deferred(),
     defReady = $.Deferred()
 ;
+const
+    code = app.code = getCode(),
+    base = getBase(code)
+;
+
 defBase.resolve(app.base);
 defBase.done(function (){
-    let code = getCode();
-    if (!!(app.base[code])){
-       return defQuery.resolve(app.base[code]);
+    if (!!(base)){
+       return defQuery.resolve(base);
     }
 });
 defQuery.done(function (data){
@@ -46,16 +50,7 @@ defQuery.done(function (data){
                 html = $(`<figure id="#${appName}-${it.name}" class="lottie-player ${it['type'] || ''}"></figure>`).appendTo(`#${appName}`)
             ;
             Object.keys(it).forEach(function (prop){
-                switch (prop){
-                    case 'path': {
-                        JSON.stringify($.getJSON(it.path).done(function (data){
-                            console.log(data)
-                            it['animationData'] = data;
-                        }));
-                        break;
-                    }
-                    default: $(html).attr(`data-${prop}`, it[prop])
-                }
+                $(html).attr(`data-${prop}`, it[prop])
             })
         })
     }).done(()=>{
@@ -83,9 +78,12 @@ defHtml.done((html)=>{
 defReady.done(()=>{
     console.log(app);
 })
-function getCode(search){
+function getCode(){
     let s = app.query.search.toString();
     return s.slice(1);
+}
+function getBase(code){
+    return Base[code]
 }
 function getAnimationData(fileName){
     return animationData[fileName]
