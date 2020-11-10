@@ -73,17 +73,25 @@ $.when(
             const
                 x = app.x[id] = getLottie(config),
                 y = config.audioData || false,
-                z = (!!y) ? setInterval(
-                ()=>{
-                    if (y.state()==="loaded") {
-                        console.log(y);
-                        clearInterval(z)
-                        x.play();
-                        y.play()
-                    }
-                    console.log(y.state());
-                }, 200) : false
+                z = $.Deferred()
             ;
+            if (!!y) {
+                setInterval(()=>{
+                    if (y.state() === "loaded") {
+                        clearInterval(z);
+                        z.resolve(y);
+                    } else {
+                        console.log(y.state())
+                    }
+
+                },200)}
+            else {
+                z.resolve(false)
+            }
+            z.done((y)=>{
+                x.play();
+                if (y) y.play()
+            })
             // audio.play();
 
         })
