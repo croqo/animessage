@@ -1,68 +1,14 @@
-const fs = require('fs');
-const path = require('path');
-const webpack = require('webpack');
-const TerserPlugin = require('terser-webpack-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-
-readLottieBase();
-
 const
+    fs = require('fs'),
+    path = require('path'),
     src = path.resolve(__dirname, 'src'),
-    config = new Promise(resolve => {
-  resolve({
-    mode: 'development',
-    // mode: 'production',
-    entry: {
-      // app : ['./src/app.js'],
-      base: [
-        path.join(src, '/base.js'),
-        path.join(src, '/base.json'),
-        path.join(src, '/_lottie.json')
-      ]
-    },
-    output: {
-      path: path.resolve(__dirname,'animessage/inc')
-    },
-    plugins: [
-      new CleanWebpackPlugin(),
-      new webpack.SourceMapDevToolPlugin({}),
-      new webpack.ProgressPlugin({
-        percentBy: 'entries'
-      })
-    ],
-
-    module: {
-      rules: [
-        {
-          test: /\.(sa|sc|c)ss$/,
-          use: [
-            { loader: 'style-loader', options: { injectType: 'styleTag' } },
-            'css-loader',
-            'sass-loader'
-          ]
-        }
-      ]
-    },
-
-    watchOptions: {
-      aggregateTimeout: 200,
-      poll: 1000
-    },
-
-    optimization: {
-      minimize: true,
-      minimizer: [new TerserPlugin({
-        // include: /\/src/,
-        // parallel:true
-      })]
-    }
-  });
-});
-
+    webpack = require('webpack'),
+    TerserPlugin = require('terser-webpack-plugin'),
+    { CleanWebpackPlugin } = require('clean-webpack-plugin')
+;
 readLottieBase().then(data =>{
   writeLottieIndex(data).then(()=>{
-    module.exports = config;
   })
 })
 
@@ -86,3 +32,51 @@ function writeLottieIndex(data){
   return fsPromise.writeFile(indexPath, data);
 }
 
+module.exports = {
+  mode: 'development',
+  // mode: 'production',
+  entry: {
+    // app : ['./src/app.js'],
+    base: [
+      path.join(src, '/base.js'),
+      path.join(src, '/base.json'),
+      path.join(src, '/_lottie.json')
+    ]
+  },
+  output: {
+    path: path.resolve(__dirname,'animessage/inc')
+  },
+  plugins: [
+    new CleanWebpackPlugin(),
+    new webpack.SourceMapDevToolPlugin({}),
+    new webpack.ProgressPlugin({
+      percentBy: 'entries'
+    })
+  ],
+
+  module: {
+    rules: [
+      {
+        test: /\.(sa|sc|c)ss$/,
+        use: [
+          { loader: 'style-loader', options: { injectType: 'styleTag' } },
+          'css-loader',
+          'sass-loader'
+        ]
+      }
+    ]
+  },
+
+  watchOptions: {
+    aggregateTimeout: 200,
+    poll: 1000
+  },
+
+  optimization: {
+    minimize: true,
+    minimizer: [new TerserPlugin({
+      // include: /\/src/,
+      // parallel:true
+    })]
+  }
+}
