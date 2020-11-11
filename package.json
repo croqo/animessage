@@ -4,9 +4,9 @@
     "url": "https://github.com/croqo/lottie-factory/issues"
   },
   "dependencies": {
-    "howler": "^2.2.0",
+    "howler": "^2.2.1",
     "jquery": "^3.5.1",
-    "lottie-web": "^5.6.10"
+    "lottie-web": "^5.7.4"
   },
   "description": "Based on lottie-web lib",
   "devDependencies": {
@@ -44,5 +44,5 @@
     "build": "webpack",
     "dev": "echo \"webpack: build started\" && sudo npx webpack --watch"
   },
-  "version": "0.5.2"
+  "version": "0.5.3"
 }
