@@ -46,6 +46,16 @@ defBase.done(base =>{
             }
             if (!!it.lottie) it.animationData = getAnimationData(it.lottie);
             it.message = (!!it.text) ?`<div class="message box"><p>${it.text}</p></div>` :"";
+            it.rendererSettings = {
+                preserveAspectRatio: (!!it.scaling) ?'xMidYMid slice' :'xMidYMid meet',
+                filterSize: {
+                    width: '200%',
+                    height: '200%',
+                    x: '-50%',
+                    y: '-50%',
+                },
+                progressiveLoad:true
+            }
 
             $.when(
                 it.html = $(`<figure id="#${id}" class="${type}"></figure>`).appendTo(`#${appName}`)
