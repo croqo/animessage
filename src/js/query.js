@@ -1,18 +1,17 @@
 import $ from "jquery";
-import Data from "./data";
 
 export default class Query extends URL
 {
 
-    /**
-     * Split searchParams keys to parent_id, keys
-     * @param {string} key
-     * @returns {[]}
-     */
-    static split(key)
-    {
-        return key.split(Data.separator()); // array[0]: id, array[1]: property
-    }
+    // /**
+    //  * Split searchParams keys to parent_id, keys
+    //  * @param {string} key
+    //  * @returns {[]}
+    //  */
+    // static split(key)
+    // {
+    //     return key.split(Data.separator()); // array[0]: id, array[1]: property
+    // }
 
     constructor() {
         let href = window.location.href;
