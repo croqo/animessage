@@ -1,7 +1,7 @@
 {
   "author": "croqo",
   "bugs": {
-    "url": "https://github.com/croqo/lottie-factory/issues"
+    "url": "https://github.com/croqo/animessage/issues"
   },
   "dependencies": {
     "howler": "^2.2.1",
@@ -27,18 +27,18 @@
     "webpack": "^5.5.0",
     "webpack-cli": "^4.2.0"
   },
-  "homepage": "https://github.com/croqo/lottie-factory#readme",
+  "homepage": "https://github.com/croqo/animessage#readme",
   "keywords": [
     "lottie",
     "web",
     "constructor"
   ],
   "license": "ISC",
-  "main": "index.js",
+  "main": "base.js",
   "name": "animessage.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/croqo/lottie-factory.git"
+    "url": "git+https://github.com/croqo/animessage.git"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
