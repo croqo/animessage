@@ -18,7 +18,7 @@
     "foreground": {
       "lottie": "https://assets1.lottiefiles.com/private_files/lf30_yjzne692.json",
       "type": "inbox",
-      "text": "Searching...",
+      "text": "Yet another message",
       "loop": false,
       "delay": 4000,
       "length": 8000
