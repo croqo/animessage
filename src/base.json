@@ -4,11 +4,11 @@
       "lottie": "https://assets4.lottiefiles.com/private_files/lf30_ugu0odns.json",
       "type": "inbox",
       "delay": 4000,
-      "text": "https://assets4.lottiefiles.com/packages/lf20_yha2dfy4.json",
+      "text": "Welcome to the party",
       "length": 13000
     },
     "background": {
-      "lottie": "001.ghost-family.json",
+      "lottie": "https://assets4.lottiefiles.com/packages/lf20_yha2dfy4.json",
       "type": "surface",
       "audio": "https://croqo.xyz/storage/app/media/dayte-tank-utro.mp3",
       "length": 18000
