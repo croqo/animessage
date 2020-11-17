@@ -10,7 +10,6 @@ module.exports = {
   // mode: 'development',
   mode: 'production',
   entry: {
-    // app : ['./src/app.js'],
     base: [
       path.join(Dev, '/base.js'),
       path.join(Dev, '/base.json')
@@ -31,7 +30,7 @@ module.exports = {
         use: [
           { loader: 'style-loader', options: { injectType: 'styleTag' } },
           'css-loader',
-          'sass-loader'
+          // 'sass-loader'
         ]
       }
     ]
