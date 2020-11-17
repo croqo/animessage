@@ -1,20 +1,19 @@
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const
-    fs = require('fs'),
     path = require('path'),
-    src = path.resolve(__dirname, 'src'),
+    Dev = path.resolve(__dirname, 'src'),
     webpack = require('webpack'),
     TerserPlugin = require('terser-webpack-plugin'),
     { CleanWebpackPlugin } = require('clean-webpack-plugin')
 ;
 module.exports = {
-  mode: 'development',
-  // mode: 'production',
+  // mode: 'development',
+  mode: 'production',
   entry: {
     // app : ['./src/app.js'],
     base: [
-      path.join(src, '/base.js'),
-      path.join(src, '/base.json')
+      path.join(Dev, '/base.js'),
+      path.join(Dev, '/base.json')
     ]
   },
   output: {
@@ -22,10 +21,7 @@ module.exports = {
   },
   plugins: [
     new CleanWebpackPlugin(),
-    new webpack.SourceMapDevToolPlugin({}),
-    new webpack.ProgressPlugin({
-      percentBy: 'entries'
-    })
+    new webpack.ProgressPlugin()
   ],
 
   module: {
@@ -48,9 +44,6 @@ module.exports = {
 
   optimization: {
     minimize: true,
-    minimizer: [new TerserPlugin({
-      // include: /\/src/,
-      // parallel:true
-    })]
+    minimizer: [new TerserPlugin()]
   }
 }
