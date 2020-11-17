@@ -7,8 +7,8 @@ const
     { CleanWebpackPlugin } = require('clean-webpack-plugin')
 ;
 module.exports = {
-  // mode: 'development',
-  mode: 'production',
+  mode: 'development',
+  // mode: 'production',
   entry: {
     base: [
       path.join(Dev, '/base.js'),
@@ -16,12 +16,12 @@ module.exports = {
     ]
   },
   output: {
-    path: path.resolve(__dirname,'animessage/inc')
+    path: path.resolve(__dirname,'animessage')
   },
-  plugins: [
-    new CleanWebpackPlugin(),
-    new webpack.ProgressPlugin()
-  ],
+  // plugins: [
+  //   new CleanWebpackPlugin(),
+  //   new webpack.ProgressPlugin()
+  // ],
 
   module: {
     rules: [
