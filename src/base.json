@@ -1,10 +1,10 @@
 {
   "N4KA": {
     "foreground": {
-      "lottie": "002.ghost-message.json",
+      "lottie": "https://assets4.lottiefiles.com/private_files/lf30_ugu0odns.json",
       "type": "inbox",
       "delay": 4000,
-      "text": "Ghost family is greeting you",
+      "text": "https://assets4.lottiefiles.com/packages/lf20_yha2dfy4.json",
       "length": 13000
     },
     "background": {
@@ -16,7 +16,7 @@
   },
   "UDK3": {
     "foreground": {
-      "lottie": "003.search.json",
+      "lottie": "https://assets1.lottiefiles.com/private_files/lf30_yjzne692.json",
       "type": "inbox",
       "text": "Searching...",
       "loop": false,
@@ -24,7 +24,7 @@
       "length": 8000
     },
     "background": {
-      "lottie": "005.web-and-app-developement.json",
+      "lottie": "https://assets4.lottiefiles.com/packages/lf20_f755rjxp.json",
       "type": "surface",
       "scaling": "y",
       "audio": "https://croqo.xyz/storage/app/media/Directed%20by%20Robert%20B.mp3",
@@ -33,29 +33,15 @@
   },
   "Ft4k": {
     "foreground": {
-      "lottie": "006.rangoli-for-diwali.json",
+      "lottie": "https://assets7.lottiefiles.com/private_files/lf30_hilbd2uq.json",
       "type": "inbox",
       "delay": 1000,
       "length": 13000
     },
     "background": {
-      "lottie": "004.diwali-diya.json",
+      "lottie": "https://assets7.lottiefiles.com/packages/lf20_hluo7ags.json",
       "type": "surface",
       "audio": "https://croqo.xyz/storage/app/media/dayte-tank-utro.mp3",
-      "length": 14000
-    }
-  },
-  "PO5k": {
-    "foreground": {
-      "lottie": "007.seesaw.json",
-      "type": "inbox",
-      "delay": 1000,
-      "length": 13000
-    },
-    "background": {
-      "lottie": "008.white-house.json",
-      "type": "surface",
-      "audio": "https://croqo.xyz/storage/app/media/Directed%20by%20Robert%20B.mp3",
       "length": 14000
     }
   }
