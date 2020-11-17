@@ -1,46 +1,18 @@
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const
-    fs = require('fs'),
     path = require('path'),
-    src = path.resolve(__dirname, 'src'),
+    Dev = path.resolve(__dirname, 'src'),
     webpack = require('webpack'),
     TerserPlugin = require('terser-webpack-plugin'),
     { CleanWebpackPlugin } = require('clean-webpack-plugin')
 ;
-readLottieBase().then(data =>{
-  writeLottieIndex(data).then(()=>{
-  })
-})
-
-function readLottieBase() {
-  return new Promise(resolve => {
-    const
-        dir = path.resolve(__dirname, 'src/lottie'),
-        files = fs.readdirSync(dir), filesCount = files.length;
-    let result = `"count":${filesCount}`, i=0;
-    files.forEach((fileName)=>{
-      let fileData = fs.readFileSync(path.resolve(dir,fileName),"utf8");
-      result = result + `, "${fileName}":${fileData}`;
-    });
-    resolve(`{${result}}`);
-  })
-}
-function writeLottieIndex(data){
-  const
-      fsPromise = require('fs').promises,
-      indexPath = path.resolve(__dirname, "src/_lottie.json");
-  return fsPromise.writeFile(indexPath, data);
-}
-
 module.exports = {
-  mode: 'development',
-  // mode: 'production',
+  // mode: 'development',
+  mode: 'production',
   entry: {
-    // app : ['./src/app.js'],
     base: [
-      path.join(src, '/base.js'),
-      path.join(src, '/base.json'),
-      path.join(src, '/_lottie.json')
+      path.join(Dev, '/base.js'),
+      path.join(Dev, '/base.json')
     ]
   },
   output: {
@@ -48,10 +20,7 @@ module.exports = {
   },
   plugins: [
     new CleanWebpackPlugin(),
-    new webpack.SourceMapDevToolPlugin({}),
-    new webpack.ProgressPlugin({
-      percentBy: 'entries'
-    })
+    new webpack.ProgressPlugin()
   ],
 
   module: {
@@ -61,7 +30,7 @@ module.exports = {
         use: [
           { loader: 'style-loader', options: { injectType: 'styleTag' } },
           'css-loader',
-          'sass-loader'
+          // 'sass-loader'
         ]
       }
     ]
@@ -74,9 +43,6 @@ module.exports = {
 
   optimization: {
     minimize: true,
-    minimizer: [new TerserPlugin({
-      // include: /\/src/,
-      // parallel:true
-    })]
+    minimizer: [new TerserPlugin()]
   }
 }
