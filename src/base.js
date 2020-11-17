@@ -7,7 +7,6 @@ import lottie from 'lottie-web';
 globalThis.lottie = lottie;
 
 import Base from './base.json';
-import animationData from './_lottie.json';
 
 import Query from "./js/query";
 const appName = "animal"
@@ -44,7 +43,7 @@ defBase.done(base =>{
                     src: [it.audio]
                 })
             }
-            if (!!it.lottie) it.animationData = getAnimationData(it.lottie);
+            if (!!it.lottie) it.path = it.lottie;
             it.message = (!!it.text) ?`<div class="message box"><p>${it.text}</p></div>` :"";
             it.rendererSettings = {
                 preserveAspectRatio: (!!it.scaling) ?'xMidYMid slice' :'xMidYMid meet',
@@ -132,9 +131,6 @@ function getCode(){
 }
 function getBase(code){
     return Base[code]
-}
-function getAnimationData(fileName){
-    return animationData[fileName]
 }
 function getLottie(config){
     config.autoplay = config.autoplay || false;
