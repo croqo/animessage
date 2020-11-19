@@ -12,9 +12,9 @@ module.exports = {
   entry: {
     index: [ path.join(Dev, '/base.js') ]
   },
-  output: {
-    path: path.resolve(__dirname,'animessage')
-  },
+  // output: {
+  //   path: path.resolve(__dirname,'')
+  // },
   plugins: [
     new CleanWebpackPlugin(),
     new webpack.ProgressPlugin()

@@ -34,7 +34,7 @@
     "constructor"
   ],
   "license": "ISC",
-  "main": "index.js",
+  "main": "dist/index.js",
   "name": "animessage.js",
   "repository": {
     "type": "git",
