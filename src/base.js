@@ -6,7 +6,7 @@ import {Howl} from 'howler'
 import lottie from 'lottie-web';
 globalThis.lottie = lottie;
 
-import Base from './base.json';
+// import Config from './base.json';
 
 import Query from "./js/query";
 const appName = "animal"
@@ -130,7 +130,7 @@ function getCode(){
     return s.slice(1);
 }
 function getBase(code){
-    return Base[code]
+    return Config[code]
 }
 function getLottie(config){
     config.autoplay = config.autoplay || false;
