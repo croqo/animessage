@@ -37,7 +37,9 @@ let app = globalThis[appName] = {
                     ;
                     if (!!it.audio) {
                         it.audioData = new Howl({
-                            src: [it.audio]
+                            src: [it.audio],
+                            html5: true,
+                            preload: 'metadata'
                         })
                     }
                     if (!!it.lottie) it.path = it.lottie;
