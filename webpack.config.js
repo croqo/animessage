@@ -12,9 +12,9 @@ module.exports = {
   entry: {
     index: [ path.join(Dev, '/base.js') ]
   },
-  // output: {
-  //   path: path.resolve(__dirname,'')
-  // },
+  output: {
+    path: path.resolve(__dirname,'animessage')
+  },
   plugins: [
     new CleanWebpackPlugin(),
     new webpack.ProgressPlugin()
@@ -27,7 +27,7 @@ module.exports = {
         use: [
           { loader: 'style-loader', options: { injectType: 'styleTag' } },
           'css-loader',
-          // 'sass-loader'
+          'sass-loader'
         ]
       }
     ]
