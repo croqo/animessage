@@ -35,13 +35,17 @@ let app = globalThis[appName] = {
                         id = `${appName}-${key}`,
                         type = "lottie-player"+((!!it.type) ?` ${it.type}` :"")+" z-hide"
                     ;
-                    if (!!it.audio) {
-                        it.audioData = new Howl({
-                            src: [it.audio],
-                            html5: true,
-                            preload: 'metadata'
-                        })
-                    }
+
+                    it.audioData =
+                        (!!it.audio)
+                            ? new Howl({
+                                src: [it.audio],
+                                html5: true,
+                                preload: 'auto'
+                            })
+                            : false
+                    ;
+
                     if (!!it.lottie) it.path = it.lottie;
                     it.message = (!!it.text) ?`<div class="message box"><p>${it.text}</p></div>` :"";
                     it.rendererSettings = {
@@ -74,48 +78,48 @@ let app = globalThis[appName] = {
                 })
             })
         ).then(()=>{
-            defReady.resolve(
+            $.when(
                 $.each(app.data, function (id, config){
-                    const
-                        player = {
-                            lottie: getLottie(config),
-                            message: config.text || false,
-                            audio: config.audioData || false,
-                            ready: $.Deferred()
-                        };
-                    player.ready.resolve(function (){
-                        if (!!player.audio) {
-                            const
-                                a = player.audio,
-                                i = setInterval(()=>{
-                                    if (a.state() === "loaded") {
-                                        clearInterval(i);
-                                    } else {
-                                        console.log(a.state())
-                                    }
-                                },200);
-                        }
-                    });
-                    app.x[id] = player
+                    const self = config;
+                    app.x[id] = {
+                        lottie: getLottie(self),
+                        message: self.text || false,
+                        audio: self.audioData,
+                        container: self.container
+                    };
                 })
-            );
-        })
+            ).then(
+                defReady.resolve()
+            )
+        });
         defReady.done(()=>{
             $.each(app.x, (id, data)=>{
-                const
-                    config = app.data[id];
-
-                setTimeout(()=>{
-                    $(config.container).append($(config.message));
-                    zFlip(config.container);
-                    if (!!data.audio) data.audio.play();
-                    data.lottie.play();
+                console.log(data);
+                let def = $.Deferred();
+                if (!!data.audio) {
+                    let i = setInterval(function (){
+                        if (data.audio.state() !== 'loaded'){
+                            console.log(data.audio.state())
+                        } else {
+                            clearInterval(i);
+                            def.resolve();
+                        }
+                    }, 50);
+                } else {
+                    def.resolve()
+                }
+                def.done(function (){
                     setTimeout(()=>{
-                        if (!!data.audio) data.audio.stop();
-                        data.lottie.stop();
-                        zFlip(config.container);
-                    }, (!!config.length) ?config.length :8000)
-                }, (!!config.delay) ?config.delay :0)
+                        $(data.container).append($(data.message));
+                        zFlip(data.container);
+                        if (!!data.audio) data.audio.id = data.audio.play();
+                        data.lottie.play();
+                        setTimeout(()=>{
+                            if (!!data.audio) data.audio.stop();
+                            data.lottie.stop();
+                            zFlip(data.container);
+                        }, (!!data.length) ?data.length :8000)
+                    }, (!!data.delay) ?data.delay :0)                })
             })
         })
 
