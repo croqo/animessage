@@ -27,7 +27,7 @@ let Config = {
             "lottie": "https://assets4.lottiefiles.com/packages/lf20_f755rjxp.json",
             "type": "surface",
             "scaling": "y",
-            "audio": "https://croqo.xyz/storage/app/media/Directed%20by%20Robert%20B.mp3",
+            "audio": "https://croqo.xyz/storage/app/media/rsac-pozvoni-mne.mp3",
             "length": 12000
         }
     },
@@ -41,11 +41,11 @@ let Config = {
         "background": {
             "lottie": "https://assets7.lottiefiles.com/packages/lf20_hluo7ags.json",
             "type": "surface",
-            "audio": "https://croqo.xyz/storage/app/media/dayte-tank-utro.mp3",
+            "audio": "https://croqo.xyz/storage/app/media/marsheaux-computer-love-unplugged.mp3",
             "length": 14000
         }
     }
 }
 let script = document.createElement('script');
-script.src = 'index.js';
+script.src = 'https://cdn.jsdelivr.net/gh/croqo/animessage@0.5.10/index.js';
 document.body.append(script);
