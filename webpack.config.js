@@ -18,10 +18,10 @@ module.exports = {
   output: {
     path: path.resolve(__dirname,'animessage')
   },
-  // plugins: [
-  //   new CleanWebpackPlugin(),
-  //   new webpack.ProgressPlugin()
-  // ],
+  plugins: [
+    new CleanWebpackPlugin(),
+    new webpack.ProgressPlugin()
+  ],
 
   module: {
     rules: [
@@ -30,7 +30,7 @@ module.exports = {
         use: [
           { loader: 'style-loader', options: { injectType: 'styleTag' } },
           'css-loader',
-          // 'sass-loader'
+          'sass-loader'
         ]
       }
     ]
