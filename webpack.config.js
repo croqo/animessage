@@ -7,13 +7,10 @@ const
     { CleanWebpackPlugin } = require('clean-webpack-plugin')
 ;
 module.exports = {
-  mode: 'development',
-  // mode: 'production',
+  // mode: 'development',
+  mode: 'production',
   entry: {
-    base: [
-      path.join(Dev, '/base.js'),
-      path.join(Dev, '/base.json')
-    ]
+    index: [ path.join(Dev, '/base.js') ]
   },
   output: {
     path: path.resolve(__dirname,'animessage')

@@ -24,7 +24,7 @@
     "style-loader": "^2.0.0",
     "terser-webpack-plugin": "^5.0.3",
     "url-loader": "^4.1.1",
-    "webpack": "^5.5.0",
+    "webpack": "^5.6.0",
     "webpack-cli": "^4.2.0"
   },
   "homepage": "https://github.com/croqo/animessage#readme",
@@ -34,7 +34,7 @@
     "constructor"
   ],
   "license": "ISC",
-  "main": "base.js",
+  "main": "dist/index.js",
   "name": "animessage.js",
   "repository": {
     "type": "git",
@@ -45,5 +45,5 @@
     "b": "echo \"webpack: build started\" && npx webpack --no-cache",
     "w": "echo \"webpack: build started\" && npx webpack --watch"
   },
-  "version": "0.5.5"
+  "version": "0.5.6"
 }
