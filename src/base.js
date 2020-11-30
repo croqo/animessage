@@ -61,7 +61,7 @@ let app = globalThis[appName] = {
                     }
 
                     $.when(
-                        it.html = $(`<figure id="#${id}" class="${type}">${it.message}</figure>`).appendTo(`#${appName}`)
+                      it.html = $(`<figure id="#${id}" class="${type}">${it.message}</figure>`).appendTo(`#${appName}`)
                     ).then(()=>{
                         app.data[key]=it;
                     })
@@ -120,10 +120,9 @@ let app = globalThis[appName] = {
                             data.lottie.stop();
                             zFlip(data.container);
                         }, (!!data.length) ?data.length :8000)
-                    }, (!!data.delay) ?data.delay :10)                })
+                }, (!!data.delay) ?data.delay :10)                })
             })
         })
-
     }
 };
 

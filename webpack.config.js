@@ -7,21 +7,18 @@ const
     { CleanWebpackPlugin } = require('clean-webpack-plugin')
 ;
 module.exports = {
-  mode: 'development',
-  // mode: 'production',
+  // mode: 'development',
+  mode: 'production',
   entry: {
-    base: [
-      path.join(Dev, '/base.js'),
-      path.join(Dev, '/base.json')
-    ]
+    index: [ path.join(Dev, '/base.js') ]
   },
   output: {
     path: path.resolve(__dirname,'animessage')
   },
-  // plugins: [
-  //   new CleanWebpackPlugin(),
-  //   new webpack.ProgressPlugin()
-  // ],
+  plugins: [
+    new CleanWebpackPlugin(),
+    new webpack.ProgressPlugin()
+  ],
 
   module: {
     rules: [
@@ -30,7 +27,7 @@ module.exports = {
         use: [
           { loader: 'style-loader', options: { injectType: 'styleTag' } },
           'css-loader',
-          // 'sass-loader'
+          'sass-loader'
         ]
       }
     ]

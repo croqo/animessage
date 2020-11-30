@@ -34,7 +34,7 @@
     "constructor"
   ],
   "license": "ISC",
-  "main": "base.js",
+  "main": "dist/index.js",
   "name": "animessage.js",
   "repository": {
     "type": "git",
@@ -45,5 +45,5 @@
     "b": "echo \"webpack: build started\" && npx webpack --no-cache",
     "w": "echo \"webpack: build started\" && npx webpack --watch"
   },
-  "version": "0.5.5"
+  "version": "0.5.6"
 }
