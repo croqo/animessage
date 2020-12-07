@@ -1,11 +1,19 @@
 export default class Setup
 {
-    constructor(code) {
+    constructor(code, parent=false) {
         this.name = code;
-        this.array = []
+        this.array = [];
+
+        let
+            selector = (parent)
+                ?parent
+                :`#aniMessage`,
+            html = `<div data-name="${this.name}" class="setup"></div>`
+        ;
+        this.html = $(html).appendTo(selector).get(0);
     }
-    inject(to){
-        this.html =
-        $(`<div class="setup-${this.name}"></div>`).appendTo($(to)).get(0);
+    push(unit){
+        unit.html(this.name);
+        this.array.push(unit);
     }
 }
