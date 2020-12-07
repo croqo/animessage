@@ -45,5 +45,5 @@
     "b": "echo \"webpack: build started\" && npx webpack --no-cache",
     "w": "echo \"webpack: build started\" && npx webpack --watch"
   },
-  "version": "0.5.12"
+  "version": "0.5.20"
 }
