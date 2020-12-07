@@ -22,10 +22,9 @@ setTimeout(()=>{
         $.when(
             $.each(app.data, function (name, units){
                 let setup = new Setup(name);
-                setup.inject(app.html);
                 console.log(setup);
                 $.each(units, function (unit_name, unit_data){
-                    setup.array.push(new Unit(unit_name, unit_data))
+                    setup.push(new Unit(unit_name, unit_data))
                 });
                 app.data[name] = setup;
             })
