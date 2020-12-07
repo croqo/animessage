@@ -4,4 +4,8 @@ export default class Setup
         this.name = code;
         this.array = []
     }
+    inject(to){
+        this.html =
+        $(`<div class="setup-${this.name}"></div>`).appendTo($(to)).get(0);
+    }
 }
