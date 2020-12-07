@@ -10,13 +10,12 @@ module.exports = {
   mode: 'development',
   // mode: 'production',
   entry: {
-    base: [
-      path.join(Dev, '/base.js'),
-      path.join(Dev, '/base.json')
+    index: [
+      path.join(Dev, '/main.js')
     ]
   },
   output: {
-    path: path.resolve(__dirname,'animessage')
+    path: path.resolve(__dirname,'build')
   },
   // plugins: [
   //   new CleanWebpackPlugin(),
@@ -42,7 +41,7 @@ module.exports = {
   },
 
   optimization: {
-    minimize: true,
-    minimizer: [new TerserPlugin()]
+    // minimize: true,
+    // minimizer: [new TerserPlugin()]
   }
 }
