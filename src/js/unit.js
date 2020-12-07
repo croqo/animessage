@@ -16,7 +16,6 @@ export default class Unit
     constructor(code, data) {
         this.data = data;
         this.name = code;
-        this.container = $(data).get(0);
         // this.anima = this.getLottie(data);
         this.sound = (data.audio) ?this.getSound(data.audio.toString()) :false;
         this.type = (!!data.type) ?`lottie-player ${data.type.toString()} z-hide` : "";
@@ -35,7 +34,13 @@ export default class Unit
         // res.done((data)=>{
         //     this.lottie = data;
         // });
-    }
+    };
+    html(setup_name){
+        let html = $(
+            `<figure data-set="${setup_name}" data-name="${this.name}" class="${this.type}"></figure>`
+        );
+        this.html = $(html).appendTo(`#aniMessage div[data-name="${setup_name}"]`).get(0)
+    };
     setMessageText(text){
         const type = "message box";
         return `<div class="${type}"><p>${text}</p></div>`
