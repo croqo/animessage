@@ -6,33 +6,31 @@ import {Howl} from 'howler'
 import lottie from 'lottie-web';
 import Unit from "./js/unit";
 import Setup from "./js/setup";
+import Template from "./js/template";
 
-const appName = "aniMessage";
-
-let app = globalThis[appName] = {
-    html: $(`<div id="${appName}"></div>`)
+let app = globalThis[Template.appName()] = {
+    html: $(`<div id="${Template.appName()}"></div>`)
 };
 
 setTimeout(()=>{
     app.data = Сonfig;
     console.log("Config ready");
     setTimeout(()=>{
-        app.html = $(app.html).appendTo("body");
+        app.html = $(Template.appHtml()).appendTo("body");
         console.log("app container injected to body");
         $.when(
             $.each(app.data, function (name, units){
                 let setup = new Setup(name);
-                console.log(setup);
-                $.each(units, function (unit_name, unit_data){
-                    setup.push(new Unit(unit_name, unit_data))
+                setTimeout(()=>{
+                    setup.array = setup.getContent(units);
                 });
                 app.data[name] = setup;
             })
         ).then(function (){
             console.log(app.data);
-            console.log("content ready?");
         });
         setTimeout(()=>{
+            console.log("content ready?");
         })
     });
 })
