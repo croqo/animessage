@@ -1,6 +1,6 @@
 /**
  * @property name string
- * @property container
+ * @property html
  * @property lottie
  * @property audio
  * @property type
@@ -14,15 +14,10 @@ import Lottie from "lottie-web";
 export default class Unit
 {
     constructor(code, data) {
-        this.data = data;
+        // this.data = data;
         this.name = code;
+        this.init(data);
         // this.anima = this.getLottie(data);
-        this.sound = (data.audio) ?this.getSound(data.audio.toString()) :false;
-        this.type = (!!data.type) ?`lottie-player ${data.type.toString()} z-hide` : "";
-        this.delay = (!!data.delay) ?data.delay :50;
-        this.text = (!!data.text) ?this.setMessageText(data.text.toString()) :"";
-        this.speed = (!!data.speed) ?data.speed :1;
-        this.scaling = (!!data.scaling);
         // let res = $.Deferred();
         // if (data.lottie){
         //     $.getJSON(data.lottie.toString(), function (data){
@@ -35,12 +30,20 @@ export default class Unit
         //     this.lottie = data;
         // });
     };
-    html(setup_name){
-        let html = $(
-            `<figure data-set="${setup_name}" data-name="${this.name}" class="${this.type}"></figure>`
-        );
-        this.html = $(html).appendTo(`#aniMessage div[data-name="${setup_name}"]`).get(0)
-    };
+    init(data){
+        this.sound = (data.audio) ?this.getSound(data.audio.toString()) :false;
+        this.type = (!!data.type) ?`lottie-player ${data.type.toString()} z-hide` : "";
+        this.delay = (!!data.delay) ?data.delay :50;
+        this.text = (!!data.text) ?this.setMessageText(data.text.toString()) :"";
+        this.speed = (!!data.speed) ?data.speed :1;
+        this.scaling = (!!data.scaling);
+    }
+    insert(container){
+        let
+            c = $(container).get(0),
+            html = $(`<figure class="${this.type}"></figure>`);
+        return $(html).appendTo(c).get(0)
+    }
     setMessageText(text){
         const type = "message box";
         return `<div class="${type}"><p>${text}</p></div>`
@@ -49,19 +52,19 @@ export default class Unit
         return new Howl({
             src: [path.toString()],
             html5: true,
-            preload: 'auto'
+            preload: 'auto',
+            onload: console.log(path.toString() + "is loaded")
         })
     }
     getLottie(data){
         let
             def = $.Deferred(),
-            html = $(`<figure class="${data.type}"></figure>`),
-            anim = Lottie.loadAnimation({
-                container: $(`${data}`),
-                animationData: this.getLottieJson(data.lottie)
-            }
-        );
-        return anim;
+            html = $(`<figure class="${data.type}"></figure>`);
+
+        return Lottie.loadAnimation({
+            container: $(`${data}`),
+            animationData: this.getLottieJson(data.lottie)
+        });
     }
     getLottieJson(path){
         let res = $.Deferred();
@@ -75,5 +78,11 @@ export default class Unit
         res.done((data)=>{
             return data;
         });
+    }
+    static getLottieByPath(container, path){
+        return Lottie.loadAnimation({
+                container: container,
+                path: path
+            })
     }
 }
