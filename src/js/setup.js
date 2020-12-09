@@ -4,19 +4,19 @@ import Template from "./template";
 /**
  * @property name
  * @property html
- * @property content
+ * @property data
  */
 export default class Setup
 {
     constructor(code) {
         this.name = code;
-        this.content = [];
+        this.data = [];
         this.html = $(
             `<div data-name="${this.name}" class="setup"></div>`
         ).appendTo(Template.appHtml()).get(0);
     }
     getContent(content){
-        let data = this.content ?? [];
+        let data = this.data ?? [];
         $.each(content, function (k, v){
             let
                 unit = new Unit(k, v),
