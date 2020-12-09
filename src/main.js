@@ -22,7 +22,7 @@ setTimeout(()=>{
             $.each(app.data, function (name, units){
                 let setup = new Setup(name);
                 setTimeout(()=>{
-                    setup.array = setup.getContent(units);
+                    setup.getContent(units);
                 });
                 app.data[name] = setup;
             })
