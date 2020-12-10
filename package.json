@@ -6,7 +6,7 @@
   "dependencies": {
     "howler": "^2.2.1",
     "jquery": "^3.5.1",
-    "lottie-web": "^5.7.4"
+    "lottie-web": "^5.7.5"
   },
   "description": "Based on lottie-web lib",
   "devDependencies": {
