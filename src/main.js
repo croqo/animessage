@@ -2,29 +2,16 @@ import "./style.css";
 import jquery from 'jquery';
 globalThis.jQuery
     = globalThis.$ = jquery;
-import Setup from "./js/setup";
 import Template from "./js/template";
+import Html from "./js/html";
+import Factory from "./js/factory";
 
 let app = globalThis[Template.appName()] = {
-    config: Сonfig
+    base: new Factory(Config),
+    view: new Html("section", {"id":Template.appName()})
 };
 $(document).ready(()=>{
-    app.html = Template.appHtml();
-    console.log("app container injected to body");
-    $.when(
-        $.each(app.config, function (name, units){
-            let setup = new Setup(name);
-            setTimeout(()=>{
-                setup.content=units;
-            });
-            app.config[name] = setup;
-        })
-    ).then(function (){
-        console.log(app.config);
-    });
-    setTimeout(()=>{
-        console.log("content ready?");
-    })
+    console.log(app);
 })
 
 // function zFlip(element){
