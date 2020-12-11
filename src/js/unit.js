@@ -49,22 +49,33 @@ export default class Unit
         return `<div class="${type}"><p>${text}</p></div>`
     }
     getSound(path){
-        return new Howl({
-            src: [path.toString()],
-            html5: true,
-            preload: 'auto',
-            onload: console.log(path.toString() + "is loaded")
+        let df = $.Deferred(),
+            ho = new Howl({
+                src: [path.toString()],
+                html5: true,
+                preload: 'auto',
+                onload: ()=>{
+                    df.resolve(ho);
+                    console.log(`${path.toString()} is loaded`)
+                }
+            })
+        ;
+        df.done((sound)=>{
+            return sound
         })
     }
     getLottie(data){
-        let
-            def = $.Deferred(),
-            html = $(`<figure class="${data.type}"></figure>`);
-
-        return Lottie.loadAnimation({
-            container: $(`${data}`),
-            animationData: this.getLottieJson(data.lottie)
-        });
+        let html = Template.animationHtml(this.id);
+        setTimeout(()=>{
+            let res = Lottie.loadAnimation({
+                container: html,
+                animationData: data
+            });
+            res.addEventListener("DOMLoaded", function (){
+                console.log(`${this.name} animation loaded`)
+            });
+            return res
+        })
     }
     getLottieJson(path){
         let res = $.Deferred();
