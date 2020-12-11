@@ -1,5 +1,5 @@
 import Unit from "./unit";
-import Template from "./template";
+import Html from "./html";
 
 /**
  * @property name
@@ -8,22 +8,23 @@ import Template from "./template";
  */
 export default class Setup
 {
-    constructor(code) {
-        this.name = code;
-        this.data = [];
-        this.html = $(
-            `<div data-name="${this.name}" class="setup"></div>`
-        ).appendTo(Template.appHtml()).get(0);
+    constructor(id, data) {
+        this.id = id;
+        setTimeout(()=>{
+            this.content = data ?? [];
+        })
     }
-    getContent(content){
-        let data = this.data ?? [];
-        $.each(content, function (k, v){
-            let
-                unit = new Unit(k, v),
-                container = $(this.html).get(0)
-            ;
-            unit.html = unit.insert(container);
-            data.push(unit);
+    set content(content){
+        let
+            id = this.id
+        ;
+        $.each(content, function (key, val){
+            let df = $.Deferred();
+            df.resolve(Html.idCreate(key, id));
+            df.done((unit_id)=>{
+                let unit = new Unit(unit_id, val);
+                console.log(unit)
+            })
         });
     }
 }
