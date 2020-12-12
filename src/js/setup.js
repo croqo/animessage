@@ -3,8 +3,8 @@ import Html from "./html";
 
 /**
  * @property name
- * @property html
- * @property data
+ * @property container
+ * @property content
  */
 export default class Setup
 {
@@ -16,15 +16,18 @@ export default class Setup
     }
     set content(content){
         let
-            id = this.id
+            id = this.id,
+            ar = []
         ;
         $.each(content, function (key, val){
-            let df = $.Deferred();
-            df.resolve(Html.idCreate(key, id));
-            df.done((unit_id)=>{
+            let df_id = $.Deferred();
+            df_id.resolve(Html.idCreate(key, id));
+            df_id.done((unit_id)=>{
                 let unit = new Unit(unit_id, val);
+                ar.push(unit);
                 console.log(unit)
             })
         });
+        return ar
     }
 }
