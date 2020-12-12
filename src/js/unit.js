@@ -1,5 +1,5 @@
 /**
- * @property name string
+ * @property name
  * @property html
  * @property lottie
  * @property audio
@@ -10,47 +10,55 @@
  * @property scaling
  */
 import Lottie from "lottie-web";
+import {Howl} from "howler";
+import Html from "./html";
 
 export default class Unit
 {
-    constructor(code, data) {
-        // this.data = data;
-        this.name = code;
-        this.init(data);
-        // this.anima = this.getLottie(data);
-        // let res = $.Deferred();
-        // if (data.lottie){
-        //     $.getJSON(data.lottie.toString(), function (data){
-        //         res.resolve(data)
-        //     })
-        // } else {
-        //     res.reject(false)
-        // }
-        // res.done((data)=>{
-        //     this.lottie = data;
-        // });
+    constructor(id, data) {
+        this.id = id;
+        setTimeout(()=>{
+            this.init(data)
+        })
     };
     init(data){
-        this.sound = (data.audio) ?this.getSound(data.audio.toString()) :false;
-        this.type = (!!data.type) ?`lottie-player ${data.type.toString()} z-hide` : "";
-        this.delay = (!!data.delay) ?data.delay :50;
-        this.text = (!!data.text) ?this.setMessageText(data.text.toString()) :"";
-        this.speed = (!!data.speed) ?data.speed :1;
-        this.scaling = (!!data.scaling);
-    }
-    insert(container){
-        let
-            c = $(container).get(0),
-            html = $(`<figure class="${this.type}"></figure>`);
-        return $(html).appendTo(c).get(0)
+        this.preload = $.Deferred();
+        $.when(
+            // sound only
+            this.soundPromise = this.getSound(data.audio),
+
+            //lottie only
+            this.scaling = (!!data.scaling),
+            this.lottiePromise = this.getLottieJson(data.lottie),
+
+            // common
+            this.delay = data.delay ?? 50,
+            this.speed = data.speed ?? 1,
+
+            //view
+            this.type = (!!data.type)
+                ?`lottie-player ${data.type.toString()} z-hide`
+                : ""
+            ,
+            this.text = (!!data.text)
+                ?this.setMessageText(data.text.toString())
+                :""
+
+        ).then(()=>{
+                this.preload.resolve()
+            });
+            this.preload.done(()=>{
+                console.log(`${this.id} assets loaded`)
+            })
     }
     setMessageText(text){
         const type = "message box";
         return `<div class="${type}"><p>${text}</p></div>`
     }
     getSound(path){
-        let df = $.Deferred(),
-            ho = new Howl({
+        let df = $.Deferred();
+        if (path) {
+            let ho = new Howl({
                 src: [path.toString()],
                 html5: true,
                 preload: 'auto',
@@ -59,17 +67,32 @@ export default class Unit
                     console.log(`${path.toString()} is loaded`)
                 }
             })
-        ;
-        df.done((sound)=>{
-            return sound
-        })
+        } else {
+            df.reject(false)
+        }
+        return df.promise();
     }
-    getLottie(data){
-        let html = Template.animationHtml(this.id);
+
+    /**
+     * @param data :Unit
+     */
+    getLottie(data) {
+        let html = Html.containerCreate("figure", {});
         setTimeout(()=>{
             let res = Lottie.loadAnimation({
                 container: html,
-                animationData: data
+                autoplay: false,
+                loop: data.loop,
+                animationData: data.lottie,
+                rendererSettings: {
+                    filterSize: {
+                        width: '200%',
+                        height: '200%',
+                        x: '-50%',
+                        y: '-50%',
+                    },
+                    preserveAspectRatio: (data.scaling) ?'xMidYMid meet' :'xMidYMid slice'
+                }
             });
             res.addEventListener("DOMLoaded", function (){
                 console.log(`${this.name} animation loaded`)
@@ -86,14 +109,9 @@ export default class Unit
         } else {
             res.reject(false)
         }
-        res.done((data)=>{
-            return data;
-        });
+        return res.promise();
     }
-    static getLottieByPath(container, path){
-        return Lottie.loadAnimation({
-                container: container,
-                path: path
-            })
+    documentReady(){
+
     }
 }
