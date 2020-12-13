@@ -9,8 +9,7 @@ export default class Factory
         $.each(config, (k,v)=>{
             let id = Html.idCreate(k,Template.appName());
             setTimeout(()=>{
-                let it = new Setup(id, v);
-                console.log(it)
+                this.setup.push(    new Setup(id, v)    )
             })
         })
     }
