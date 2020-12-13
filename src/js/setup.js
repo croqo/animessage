@@ -30,4 +30,20 @@ export default class Setup
         });
         return ar
     }
+    get container(){
+        return Html.containerGet(this.id)
+    }
+    set container(data){
+        let
+            pa = Html.containerGet(),
+            id = Html.idCreate(this.id, p.id),
+            co = Html.containerCreate("div",{
+                "id": id,
+                "class": "setup"
+            })
+        ;
+        setTimeout(()=>{
+            pa.appendChild(co)
+        })
+    }
 }
