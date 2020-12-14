@@ -6,10 +6,15 @@ export default class Factory
 {
     constructor(config) {
         this.setup = [];
-        $.each(config, (k,v)=>{
-            let id = Html.idCreate(k,Template.appName());
+        setTimeout(()=>{
+            $.each(config, (k,v)=>{
+                let id = Html.idCreate(k,Template.appName());
+                setTimeout(()=>{
+                    this.setup.push(    new Setup(id, v)    )
+                })
+            });
             setTimeout(()=>{
-                this.setup.push(    new Setup(id, v)    )
+                console.log("Factory setup ready")
             })
         })
     }
