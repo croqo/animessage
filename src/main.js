@@ -3,8 +3,8 @@ import jquery from 'jquery';
 globalThis.jQuery
     = globalThis.$ = jquery;
 import Template from "./js/template";
-import Html from "./js/html";
 import Factory from "./js/factory";
+import Html from "./js/html";
 
 let app = globalThis[Template.appName()] = {
     base: new Factory(Config),
