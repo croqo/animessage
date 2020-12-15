@@ -17,18 +17,24 @@ export default class Setup
     set content(content){
         let
             id = this.id,
-            ar = []
+            ar = [], unit
         ;
         $.each(content, function (key, val){
             let df_id = $.Deferred();
-            df_id.resolve(Html.idCreate(key, id));
+            df_id.resolve(
+                Html.idCreate(key, id)
+                );
             df_id.done((unit_id)=>{
-                let unit = new Unit(unit_id, val);
-                ar.push(unit);
-                console.log(unit)
+                unit = new Unit(unit_id, val);
+                setTimeout(() => {
+                    ar.push(unit);
+                });
             })
         });
-        return ar
+        setTimeout(() => {
+            console.log(unit);
+            return ar
+        });
     }
     get container(){
         return Html.containerGet(this.id)
@@ -36,14 +42,19 @@ export default class Setup
     set container(data){
         let
             pa = Html.containerGet(),
-            id = Html.idCreate(this.id, p.id),
-            co = Html.containerCreate("div",{
-                "id": id,
-                "class": "setup"
+            id, co;
+            setTimeout(() => {
+                id = Html.idCreate(this.id, p.id);
+                setTimeout(() => {
+                    co = Html.containerCreate("div",{
+                        "id": id,
+                        "class": "setup"
+                    })    
+                })
             })
         ;
         setTimeout(()=>{
-            pa.appendChild(co)
+            return pa.appendChild(co)
         })
     }
 }
