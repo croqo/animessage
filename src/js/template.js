@@ -1,20 +1,52 @@
 export default class Template
 {
-    static appName(){return "aniMessage"}
+    static appName(){return "aniMessage"};
     static appHtml(){
         return $(`#${Template.appName()}`).get(0)
             ?? $(`<div id="${Template.appName()}"></div>`).appendTo("body").get(0)
-    }
+    };
     static setupHtml(id){
+        let name = `${Template.appName()}-${id}`, parent = $(Template.appHtml());
         return (
-            $(Template.appHtml()).find(`div.setup.${id}`).get(0)
-            ?? $(`<div class="setup ${id}"></div>`).appendTo(Template.appHtml()).get(0)
+            $(`#${name}`).get(0)
+            ?? $(`<div id="${name}" class="setup"></div>`).appendTo(parent).get(0)
         )
+    };
+    static unitHtml(setup_id, unit_id){
+        let
+            name = `${setup_id}-${unit_id}`,
+            setup = Template.setupHtml(setup_id)
+        ;
+        setTimeout(()=>{
+            return (
+                $(`#${name}`).get(0)
+                ?? $(`<div id="${name}" class="unit"></div>`).appendTo(setup).get(0)
+            )
+        })
+    };
+    static animationHtml(unit_html){
+        let unit_id = $(unit_html).id,
+            unit = $(`#${unit_id}`);
+        return (
+            unit.find("figure.animation").get(0)
+            ?? $(`<figure class="animation"></figure>`).appendTo(unit).get(0)
+        )
+    };
+    static container(id, parent){
+        let res = document.getElementById(id);
+        if (res===null) {
+            let div = document.createElement("div");
+            div.id = (!!parent.id) ?`${parent.id}__${id}` :id;
+            res = parent.appendChild(div);
+        }
+        return res
     }
-    static unitHtml(setup_html, unit_id){
-        return (
-            $(setup_html).find(`div.unit.${unit_id}`).get(0)
-            ?? $(`<div class="unit ${unit_id}"></div>`).appendTo(setup_html).get(0)
-        )
+    static containerCreate(new_id, parent_id=""){
+        let
+            div = document.createElement("div"),
+            parent = (parent_id==="") ?Template.appHtml() :document.getElementById(parent_id)
+        ;
+        div.id = (parent_id) ?`${parent_id}__${new_id}` :new_id;
+        return parent.appendChild(div);
     }
 }

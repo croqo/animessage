@@ -1,5 +1,5 @@
 /**
- * @property name
+ * @property id
  * @property html
  * @property lottie
  * @property audio
@@ -18,18 +18,18 @@ export default class Unit
     constructor(id, data) {
         this.id = id;
         setTimeout(()=>{
-            this.init(data)
+            this.node = new DocumentFragment();
+            this.init(data);
         })
     };
     init(data){
-        this.preload = $.Deferred();
         $.when(
             // sound only
-            this.soundPromise = this.getSound(data.audio),
+            this.audio = (!!data.audio) ?data.audio.toString() :"",
 
             //lottie only
             this.scaling = (!!data.scaling),
-            this.lottiePromise = this.getLottieJson(data.lottie),
+            this.lottie = (!!data.lottie) ?data.lottie.toString() :"",
 
             // common
             this.delay = data.delay ?? 50,
@@ -40,16 +40,28 @@ export default class Unit
                 ?`lottie-player ${data.type.toString()} z-hide`
                 : ""
             ,
-            this.text = (!!data.text)
+            this.message = (!!data.text)
                 ?this.setMessageText(data.text.toString())
                 :""
 
         ).then(()=>{
-                this.preload.resolve()
-            });
-            this.preload.done(()=>{
-                console.log(`${this.id} assets loaded`)
+            $.when(
+                this.getLottieJson(this.lottie).done((data)=>{
+                    this.animationData = data;
+                    setTimeout(()=>{
+                        console.log(`${this.id} animation is ready`)
+                    })
+                }),
+                this.getSound(this.audio).done((sound)=>{
+                    this.sound = sound;
+                    setTimeout(()=>{
+                        console.log(`${this.id} sound is ready`)
+                    })
+                })    
+            ).then(()=>{
+                console.log(`${this.id} loading complete`);
             })
+        })
     }
     setMessageText(text){
         const type = "message box";
@@ -64,7 +76,6 @@ export default class Unit
                 preload: 'auto',
                 onload: ()=>{
                     df.resolve(ho);
-                    console.log(`${path.toString()} is loaded`)
                 }
             })
         } else {
@@ -95,7 +106,7 @@ export default class Unit
                 }
             });
             res.addEventListener("DOMLoaded", function (){
-                console.log(`${this.name} animation loaded`)
+                console.log(`${this.name} animation loaded...`)
             });
             return res
         })
@@ -107,11 +118,13 @@ export default class Unit
                 res.resolve(data)
             })
         } else {
-            res.reject(false)
+            res.reject()
         }
         return res.promise();
     }
-    documentReady(){
-
+    append(id){
+        let tag = document.createElement("unit");
+        tag.id = id;
+        return this.node.appendChild(tag)
     }
 }

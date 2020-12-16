@@ -1,22 +1,24 @@
 import Unit from "./unit";
 import Html from "./html";
-
+import Template from "./template";
 /**
  * @property name
  * @property container
  * @property content
+ * @property player
  */
 export default class Setup
 {
     constructor(id, data) {
-        this.id = id;
+         this.id = this.container = id;
+
         setTimeout(()=>{
             this.content = data ?? [];
         })
     }
     set content(content){
         let
-            id = this.id,
+            id = this.id, html = this.container,
             ar = [], unit
         ;
         $.each(content, function (key, val){
@@ -27,6 +29,7 @@ export default class Setup
             df_id.done((unit_id)=>{
                 unit = new Unit(unit_id, val);
                 setTimeout(() => {
+                    this.container = unit_id;
                     ar.push(unit);
                 });
             })
@@ -37,24 +40,32 @@ export default class Setup
         });
     }
     get container(){
-        return Html.containerGet(this.id)
+        return document.getElementById(this.id)
     }
-    set container(data){
-        let
-            pa = Html.containerGet(),
-            id, co;
-            setTimeout(() => {
-                id = Html.idCreate(this.id, p.id);
-                setTimeout(() => {
-                    co = Html.containerCreate("div",{
-                        "id": id,
-                        "class": "setup"
-                    })    
-                })
-            })
-        ;
+    set container(id){
+        let res = new DocumentFragment(),
+        el = document.createElement("message");
+        el.id = id;
+        res.appendChild(el);
+        return document.body.appendChild(res);
+    }
+    static from(config){
+        let res = [];
         setTimeout(()=>{
-            return pa.appendChild(co)
-        })
+            $.each(config, (k,v)=>{
+                Html.idCreate(k,Template.appName())
+                .done((id_gen)=>{
+                    setTimeout(()=>{
+                        setTimeout(()=>{
+                            res.push(    new Setup(id_gen, v)    )
+                        })
+                    })
+                })
+            });
+            setTimeout(()=>{
+                console.log(this);
+            })
+        });
+        return res
     }
 }

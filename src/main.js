@@ -8,7 +8,10 @@ import Html from "./js/html";
 
 let app = globalThis[Template.appName()] = {
     base: new Factory(Config),
-    view: new Html("section", {"id":Template.appName()})
+    play: function(code){
+        console.log(`Click: play(${code})`);
+
+    }
 };
 $(document).ready(()=>{
     console.log(app);
