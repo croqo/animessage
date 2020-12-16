@@ -1,6 +1,7 @@
 import Unit from "./unit";
 import Html from "./html";
 import Template from "./template";
+import Container from "./view/container";
 /**
  * @property name
  * @property container
@@ -10,60 +11,19 @@ import Template from "./template";
 export default class Setup
 {
     constructor(id, data) {
-         this.id = this.container = id;
-
-        setTimeout(()=>{
-            this.content = data ?? [];
+        this.id = id;
+        this.$ = Template.setupHtml(id);
+         setTimeout(()=>{
+            this.content = this.getData(data);
         })
     }
-    set content(content){
-        let
-            id = this.id, html = this.container,
-            ar = [], unit
-        ;
-        $.each(content, function (key, val){
-            let df_id = $.Deferred();
-            df_id.resolve(
-                Html.idCreate(key, id)
-                );
-            df_id.done((unit_id)=>{
-                unit = new Unit(unit_id, val);
-                setTimeout(() => {
-                    this.container = unit_id;
-                    ar.push(unit);
-                });
-            })
-        });
-        setTimeout(() => {
-            console.log(unit);
-            return ar
-        });
-    }
-    get container(){
-        return document.getElementById(this.id)
-    }
-    set container(id){
-        let res = new DocumentFragment(),
-        el = document.createElement("message");
-        el.id = id;
-        res.appendChild(el);
-        return document.body.appendChild(res);
-    }
-    static from(config){
-        let res = [];
-        setTimeout(()=>{
-            $.each(config, (k,v)=>{
-                Html.idCreate(k,Template.appName())
-                .done((id_gen)=>{
-                    setTimeout(()=>{
-                        setTimeout(()=>{
-                            res.push(    new Setup(id_gen, v)    )
-                        })
-                    })
-                })
-            });
+    getData(data){
+        let res = [], this_id = this.id;
+        $.each(data, (key, val)=>{
+            let unit = new Unit(key, val);
+            unit.$ = Template.unitHtml(this_id, key);
             setTimeout(()=>{
-                console.log(this);
+                res.push(unit) 
             })
         });
         return res

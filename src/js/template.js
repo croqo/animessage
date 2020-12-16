@@ -3,24 +3,29 @@ export default class Template
     static appName(){return "aniMessage"};
     static appHtml(){
         return $(`#${Template.appName()}`).get(0)
-            ?? $(`<div id="${Template.appName()}"></div>`).appendTo("body").get(0)
+            ?? $(`<section id="${Template.appName()}"></section>`).appendTo("body").get(0)
     };
     static setupHtml(id){
-        let name = `${Template.appName()}-${id}`, parent = $(Template.appHtml());
+        let 
+        name = `${Template.appName()}-${id}`,
+        tag = "div", 
+        parent = $(Template.appHtml());
+
         return (
-            $(`#${name}`).get(0)
-            ?? $(`<div id="${name}" class="setup"></div>`).appendTo(parent).get(0)
+            $(`#${Template.appName()} ${tag}#${name}`).get(0)
+            ?? $(`<${tag} id="${name}" class="media-set"></${tag}>`).appendTo(parent).get(0)
         )
     };
     static unitHtml(setup_id, unit_id){
         let
-            name = `${setup_id}-${unit_id}`,
-            setup = Template.setupHtml(setup_id)
+            name = `${Template.appName()}-${setup_id}-${unit_id}`,
+            setup = Template.setupHtml(setup_id),
+            tag = "div"
         ;
         setTimeout(()=>{
             return (
                 $(`#${name}`).get(0)
-                ?? $(`<div id="${name}" class="unit"></div>`).appendTo(setup).get(0)
+                ?? $(`<${tag} id="${name}" class="media-unit"></${tag}>`).appendTo(setup).get(0)
             )
         })
     };

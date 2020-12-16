@@ -10,13 +10,11 @@ let app = globalThis[Template.appName()] = {
     base: new Factory(Config),
     play: function(code){
         console.log(`Click: play(${code})`);
-
     }
 };
-$(document).ready(()=>{
+setTimeout(()=>{
     console.log(app);
 })
-
 // function zFlip(element){
 //     $(element).toggleClass("z-hide");
 // }
