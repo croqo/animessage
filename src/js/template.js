@@ -12,14 +12,14 @@ export default class Template
         parent = $(Template.appHtml());
 
         return (
-            $(`#${Template.appName()} ${tag}#${name}`).get(0)
+            $(`#${Template.appName()} ${tag}#${id}`).get(0)
             ?? $(`<${tag} id="${name}" class="media-set"></${tag}>`).appendTo(parent).get(0)
         )
     };
-    static unitHtml(setup_id, unit_id){
+    static unitHtml(parent, unit_id){
         let
-            name = `${Template.appName()}-${setup_id}-${unit_id}`,
-            setup = Template.setupHtml(setup_id),
+            name = `${parent}-${unit_id}`,
+            setup = Template.setupHtml(parent),
             tag = "div"
         ;
         setTimeout(()=>{

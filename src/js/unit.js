@@ -12,13 +12,14 @@
 import Lottie from "lottie-web";
 import {Howl} from "howler";
 import Html from "./html";
+import Template from "./template";
 
 export default class Unit
 {
     constructor(id, data) {
         this.id = id;
+        this.ready = $.Deferred();
         setTimeout(()=>{
-            this.node = new DocumentFragment();
             this.init(data);
         })
     };
@@ -59,6 +60,7 @@ export default class Unit
                     })
                 })    
             ).then(()=>{
+                this.ready.resolve();
                 console.log(`${this.id} loading complete`);
             })
         })
